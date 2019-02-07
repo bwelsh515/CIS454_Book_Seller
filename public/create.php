@@ -14,16 +14,16 @@ if (isset($_POST['submit'])) {
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 
         $new_user = array(
-            "firstname" => $_POST['firstname'],
-            "lastname" => $_POST['lastname'],
-            "email" => $_POST['email'],
-            "age" => $_POST['age'],
-            "location" => $_POST['location'],
+            "book_genre" => $_POST['Genre'],
+            "book_name" => $_POST['Name'],
+            "book_author" => $_POST['Author'],
+            "book_price" => $_POST['Price'],
+            "is_available" => 'Available'
         );
 
         $sql = sprintf(
             "INSERT INTO %s (%s) values (%s)",
-            "users",
+            "bookinfo",
             implode(", ", array_keys($new_user)),
             ":" . implode(", :", array_keys($new_user))
         );
@@ -40,22 +40,21 @@ if (isset($_POST['submit'])) {
 <?php require "templates/header.php";?>
 
 <?php if (isset($_POST['submit']) && $statement) {?>
-	<blockquote><?php echo $_POST['firstname']; ?> successfully added.</blockquote>
+	<blockquote><?php echo $_POST['Genre']; ?> successfully added.</blockquote>
 <?php }?>
 
 <h2>Add a user</h2>
 
 <form method="post">
-	<label for="firstname">First Name</label>
-	<input type="text" name="firstname" id="firstname">
-	<label for="lastname">Last Name</label>
-	<input type="text" name="lastname" id="lastname">
-	<label for="email">Email Address</label>
-	<input type="text" name="email" id="email">
-	<label for="age">Age</label>
-	<input type="text" name="age" id="age">
-	<label for="location">Location</label>
-	<input type="text" name="location" id="location">
+	<label for="Genre">Genre</label>
+	<input type="text" name="Genre" id="Genre">
+	<label for="Name">Name</label>
+	<input type="text" name="Name" id="Name">
+	<label for="Author">Author</label>
+	<input type="text" name="Author" id="Author">
+	<label for="Price">Price</label>
+	<input type="text" name="Price" id="Price">
+	
 	<input type="submit" name="submit" value="Submit">
 </form>
 
