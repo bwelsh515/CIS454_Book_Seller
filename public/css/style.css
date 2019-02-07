@@ -1,10 +1,7 @@
-.wrapper{
+.wrapper {
   width: 650px;
   margin: 0 auto;
 }
-.page-header h2{
+.page-header h2 {
   margin-top: 0;
-}
-table tr td:last-child a{
-  margin: 20px;
 }

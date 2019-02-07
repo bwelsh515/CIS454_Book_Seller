@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Escapes HTML for output
- *
+ *  Escapes HTML for output
+ *  (Prevents XSS Attacks)
  */
 
 function escape($html)
