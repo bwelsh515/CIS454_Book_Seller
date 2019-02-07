@@ -49,12 +49,9 @@ try {
 						<td><?php echo escape($row["book_name"]); ?></td>
 						<td><?php echo escape($row["book_author"]); ?></td>
 						<td>$<?php echo escape($row["book_price"]); ?></td>
-						<?php if ($row["is_available"] == 1) {
-							echo "<td>Available</td>";
-						} else {
-							echo "<td>Shipped</td>";
-						}
-						?>
+						<td><?php echo escape($row["is_available"]); ?></td>
+
+						
 						<td></td> <!-- TODO: add action buttons -->
 					</tr>
 				<?php }?>
