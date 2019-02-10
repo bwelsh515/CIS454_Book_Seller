@@ -79,7 +79,7 @@ VALUES
 	(1,'Brian Welsh','Seller','Password2'),
 	(2,'Beibei Zhang','Buyer','password3'),
 	(3,'Zhijan Chen','Seller','password4'),
-	(4,'Jiaqi Chen','Buyer','password4'),
+	(4,'Jiaqi Feng','Buyer','password4'),
 	(5,'Michael Scott','Buyer','dundermifflin'),
 	(6,'Bruce Wayne','Seller','Batman');
 
