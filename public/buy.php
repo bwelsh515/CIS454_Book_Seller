@@ -8,6 +8,11 @@
     *  Else, report error
     *
  -->
-Buying Textbook Page
+<?php
+session_start();
+$bookid = $_GET['bookid'];
+echo $bookid;
+?>
+
 
 <?php require "templates/footer.php";?>
