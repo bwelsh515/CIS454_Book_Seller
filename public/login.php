@@ -67,7 +67,8 @@ if (isset($_POST['submit'])) {
                <form action = "" method = "post">
                   <label>UserName  :</label><input type = "text" name = "username" class = "box"/><br /><br />
                   <label>Password  :</label><input type = "password" name = "password" class = "box" /><br/><br />
-                  <input type = "submit" name="submit" value="Submit"/><br />
+                  <input type = "submit" name="submit" value="Submit"class="btn btn-primary"/>
+                  <a href="register.php" class="btn btn-success"> Register</a>
                </form>
 
                <div style = "font-size:11px; color:#cc0000; margin-top:10px"><?php echo $error; ?></div>
