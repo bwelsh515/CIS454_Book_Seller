@@ -11,8 +11,32 @@
 <?php
 session_start();
 $bookid = $_GET['bookid'];
-echo $bookid;
-?>
 
+
+
+
+try {
+    // Try to connect to DB. Select all from bookinfo table.
+    require_once "../config.php";
+    require "../common.php";
+
+    $connection = new PDO($dsn, $db_username, $db_password, $db_options);
+
+    $sql = "SELECT * FROM bookinfo " ;
+
+    $statement = $connection->prepare($sql);
+    $statement->execute();
+
+    $result = $statement->fetchAll();
+} catch (PDOException $error) {
+    echo $sql . "<br>" . $error->getMessage();
+}
+foreach($result as $row) {
+    // output data of each row
+    if($row['book_id']==$bookid) {
+        echo "name: " . $row["book_name"]. " - author: " . $row["book_author"]. " - price: " . $row["book_price"]. "<br>";
+    }
+}
+?>
 
 <?php require "templates/footer.php";?>
