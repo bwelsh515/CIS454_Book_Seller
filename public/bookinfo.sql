@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.23)
 # Database: BookSeller
-# Generation Time: 2019-02-10 18:14:56 +0000
+# Generation Time: 2019-02-10 18:24:03 +0000
 # ************************************************************
 
 
@@ -26,29 +26,31 @@
 DROP TABLE IF EXISTS `bookinfo`;
 
 CREATE TABLE `bookinfo` (
+  `book_id` int(100) NOT NULL,
   `book_genre` varchar(30) NOT NULL,
   `book_name` varchar(30) NOT NULL,
   `book_author` varchar(30) NOT NULL,
   `book_price` int(11) NOT NULL,
-  `is_available` varchar(30) NOT NULL DEFAULT ''
+  `is_available` varchar(30) NOT NULL DEFAULT '',
+  UNIQUE KEY `book_id` (`book_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `bookinfo` WRITE;
 /*!40000 ALTER TABLE `bookinfo` DISABLE KEYS */;
 
-INSERT INTO `bookinfo` (`book_genre`, `book_name`, `book_author`, `book_price`, `is_available`)
+INSERT INTO `bookinfo` (`book_id`, `book_genre`, `book_name`, `book_author`, `book_price`, `is_available`)
 VALUES
-	('Computer Science','Basic Data Structures','John Smith',120,'Available'),
-	('Math','Essential Calculus I','James Stewart',155,'Available'),
-	('Math','Essential Calculus II','James Stewart',199,'Available'),
-	('Computer Science','Operating Systems','Jae Oh',105,'Shipped'),
-	('Math','Essential Calculus III','James Stewart',201,'Available'),
-	('Math','Statistics 101','John Doe',25,'Shipped'),
-	('Computer Science','Algorithms','John Doe',250,'Available'),
-	('Fiction','Game of Thrones','George RR. Martin',25,'Available'),
-	('Fiction','Harry Potter','JK Rowling',100,'Shipped'),
-	('Computer Science','Web Design for Nubes','Brian Welsh',4,'Available'),
-	('gtbetyh','ythruytn','yth6uj',300,'Available');
+	(1,'Computer Science','Basic Data Structures','John Smith',120,'Available'),
+	(2,'Math','Essential Calculus I','James Stewart',155,'Available'),
+	(3,'Math','Essential Calculus II','James Stewart',199,'Available'),
+	(4,'Computer Science','Operating Systems','Jae Oh',105,'Shipped'),
+	(5,'Math','Essential Calculus III','James Stewart',201,'Available'),
+	(6,'Math','Statistics 101','John Doe',25,'Shipped'),
+	(7,'Computer Science','Algorithms','John Doe',250,'Available'),
+	(8,'Fiction','Game of Thrones','George RR. Martin',25,'Available'),
+	(9,'Fiction','Harry Potter','JK Rowling',100,'Shipped'),
+	(10,'Computer Science','Web Design for Nubes','Brian Welsh',4,'Available'),
+	(11,'gtbetyh','ythruytn','yth6uj',300,'Available');
 
 /*!40000 ALTER TABLE `bookinfo` ENABLE KEYS */;
 UNLOCK TABLES;
