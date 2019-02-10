@@ -7,15 +7,13 @@
  *  Hash password and store information in DB
  *  Redirect to Login Page
  */
-
+    $username = $password = $confirm_password = "";
+    $username_err = $password_err = $confirm_password_err = "";
+    $usertype = $usertype_err = "";
 // Processing form data when form is submitted
 if (isset($_POST['submit'])) {
     require "../config.php";
     require "../common.php";
-
-    $username = $password = $confirm_password = "";
-    $username_err = $password_err = $confirm_password_err = "";
-    $usertype = $usertype_err = "";
 
     try {
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
