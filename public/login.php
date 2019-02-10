@@ -1,67 +1,64 @@
-<?php require "templates/header.php";?>
-<!--
-    *
-    *  Take username and password from user via form
-    *  Process data
-    *  Retreive account from DB
-    *  If username and password match, store user info in SESSIONS
-    *  Redirect to index page
-    *
- -->
- <?php
-   include("../config.php");
-   session_start();
+<?php
+/*
+ *  Take username and password from user via form
+ *  Process data
+ *  Retreive account from DB
+ *  If username and password match, store user info in SESSIONS
+ *  Redirect to index page
+ */
 
-   if($_SERVER["REQUEST_METHOD"] == "POST") {
-      // username and password sent from form
+// Initialize the session
+session_start();
+// Check if the user is already logged in, if yes then redirect him to index page
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    header("location: index.php");
+    exit;
+}
 
-      $myusername = mysqli_real_escape_string($db,$_POST['username']);
-      $mypassword = mysqli_real_escape_string($db,$_POST['password']);
+if (isset($_POST['submit'])) {
+    require "../config.php";
+    require "../common.php";
 
-      $sql = "SELECT id FROM admin WHERE username = '$myusername' and passcode = '$mypassword'";
-      $result = mysqli_query($db,$sql);
-      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-      $active = $row['active'];
+    try {
+        $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 
-      $count = mysqli_num_rows($result);
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-      // If result matched $myusername and $mypassword, table row must be 1 row
+        $sql = "SELECT * FROM user_info WHERE user_name = :username AND user_password = :password";
 
-      if($count == 1) {
-         session_register("myusername");
-         $_SESSION['login_user'] = $myusername;
+        if ($stmt = $connection->prepare($sql)) {
+            $stmt->bindParam(":username", $username);
+            $stmt->bindParam(":password", $password);
 
-         header("location: welcome.php");
-      }else {
-         $error = "Your Login Name or Password is invalid";
-      }
-   }
+            if ($stmt->execute()) {
+                if ($stmt->rowCount() == 1) {
+                    if ($row = $stmt->fetch()) {
+                        $user_id = $row["user_id"];
+                    }
+
+                    $_SESSION["loggedin"] = true;
+                    $_SESSION["id"] = $id;
+                    $_SESSION["username"] = $username;
+
+                    // Redirect user to welcome page
+                    header("location: index.php");
+                }
+            }
+            $error = "Invalid Username or Password";
+        }
+
+    } catch (PDOException $error) {
+        echo $sql . "<br>" . $error->getMessage();
+    }
+
+}
 ?>
-<html>
 
-   <head>
-      <title>Login Page</title>
 
-      <style type = "text/css">
-         body {
-            font-family:Arial, Helvetica, sans-serif;
-            font-size:14px;
-         }
-         label {
-            font-weight:bold;
-            width:100px;
-            font-size:14px;
-         }
-         .box {
-            border:#666666 solid 1px;
-         }
-      </style>
+<?php require "templates/header.php";?>
 
-   </head>
-
-   <body bgcolor = "#FFFFFF">
-
-      <div align = "center">
+ <div align = "center">
          <div style = "width:300px; border: solid 1px #FFD700; " align = "left">
             <div style = "background-color:#FFD700; color:#FFFFFF; padding:3px;"><b>Login</b></div>
 
@@ -70,7 +67,7 @@
                <form action = "" method = "post">
                   <label>UserName  :</label><input type = "text" name = "username" class = "box"/><br /><br />
                   <label>Password  :</label><input type = "password" name = "password" class = "box" /><br/><br />
-                  <input type = "submit" value = " Submit "/><br />
+                  <input type = "submit" name="submit" value="Submit"/><br />
                </form>
 
                <div style = "font-size:11px; color:#cc0000; margin-top:10px"><?php echo $error; ?></div>
@@ -80,9 +77,5 @@
          </div>
 
       </div>
-
-   </body>
-</html>
-Login Page
 
 <?php require "templates/footer.php";?>
