@@ -14,7 +14,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
     header("location: index.php");
     exit;
 }
-
+$error ="";
 if (isset($_POST['submit'])) {
     require "../config.php";
     require "../common.php";
