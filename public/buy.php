@@ -32,11 +32,11 @@ try {
                 if ($row = $stmt->fetch()) {
                     $book_name = $row['book_name'];
                     $book_price = $row['book_price'];
-                    //echo "<p>Are you sure you want to purchase <b>" . $book_name . "</b> for <b>$" . $book_price . "</b>?</p>";
                 }
             }
         }
     }
+
 } catch (PDOException $error) {
     echo $sql . "<br>" . $error->getMessage();
 }
