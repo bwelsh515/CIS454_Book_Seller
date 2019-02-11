@@ -60,7 +60,10 @@ if (isset($_POST['submit'])) {
 <div class="container">
     <div class="page-header clearfix">
         <h2 class="pull-left">Buy a Textbook</h2>
-        <a href="index.php" class="btn btn-success pull-right">Back To Textbooks</a>
+        <div class="btn-toolbar">
+            <a href="logout.php" class="btn btn-danger pull-right">Logout</a>
+            <a href="index.php" class="btn btn-success pull-right">Back To Textbooks</a>
+        </div>
     </div>
 <?php if (!$purchased) {?>
     <div class="wrapper">
