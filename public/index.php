@@ -5,6 +5,15 @@
  *  Else, provide link to Sell textbook if Seller
  *
  */
+
+session_start();
+
+// Prevent the user from accessing the page without being logged in.
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
+    header("location: login.php");
+    exit;
+}
+
 try {
     // Try to connect to DB. Select all from bookinfo table.
     require_once "../config.php";
@@ -57,11 +66,13 @@ if ($result && $statement->rowCount() > 0) {?>
 						<td><?php echo escape($row["is_available"]); ?></td>
 						<!-- TODO: Add Check if user_type is Buyer -->
 						<!-- Display a Buy Button if textbook is available and user is buyer -->
-						<?php if (escape($row["is_available"] == "Available")) {?>
-    						<td><a href="buy.php" class="btn btn-info">Buy Textbook</a></td>
-						<?php } else {?>
-    						<td></td>
-						<?php }?>
+						<?php if (escape($row["is_available"] == "Available")) {
+    $_SESSION['book_name'] = $row['book_name'];
+    echo "<td><a href=\"buy.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Buy Textbook</a></td>";
+
+} else {
+    echo "<td></td>";
+}?>
 					</tr>
 				<?php }?>
 				</tbody>

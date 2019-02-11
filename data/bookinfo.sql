@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.23)
 # Database: BookSeller
-# Generation Time: 2019-02-07 01:17:25 +0000
+# Generation Time: 2019-02-10 19:52:55 +0000
 # ************************************************************
 
 
@@ -26,29 +26,32 @@
 DROP TABLE IF EXISTS `bookinfo`;
 
 CREATE TABLE `bookinfo` (
+  `book_id` int(100) NOT NULL AUTO_INCREMENT,
   `book_genre` varchar(30) NOT NULL,
   `book_name` varchar(30) NOT NULL,
   `book_author` varchar(30) NOT NULL,
   `book_price` int(11) NOT NULL,
-  `is_available` varchar(30) NOT NULL DEFAULT ''
+  `is_available` varchar(30) NOT NULL DEFAULT '',
+  UNIQUE KEY `book_id` (`book_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `bookinfo` WRITE;
 /*!40000 ALTER TABLE `bookinfo` DISABLE KEYS */;
 
-INSERT INTO `bookinfo` (`book_genre`, `book_name`, `book_author`, `book_price`, `is_available`)
+INSERT INTO `bookinfo` (`book_id`, `book_genre`, `book_name`, `book_author`, `book_price`, `is_available`)
 VALUES
-	('Computer Science','Basic Data Structures','John Smith',120,'Available'),
-	('Math','Essential Calculus I','James Stewart',155,'Available'),
-	('Math','Essential Calculus II','James Stewart',199,'Available'),
-	('Computer Science','Operating Systems','Jae Oh',105,'Shipped'),
-	('Math','Essential Calculus III','James Stewart',201,'Available'),
-	('Math','Statistics 101','John Doe',25,'Shipped'),
-	('Computer Science','Algorithms','John Doe',250,'Available'),
-	('Fiction','Game of Thrones','George RR. Martin',25,'Available'),
-	('Fiction','Harry Potter','JK Rowling',100,'Shipped'),
-	('Computer Science','Web Design for Nubes','Brian Welsh',4,'Available'),
-	('gtbetyh','ythruytn','yth6uj',300,'Available');
+	(1,'Computer Science','Basic Data Structures','John Smith',120,'Available'),
+	(2,'Math','Essential Calculus I','James Stewart',155,'Available'),
+	(3,'Math','Essential Calculus II','James Stewart',199,'Available'),
+	(4,'Computer Science','Operating Systems','Jae Oh',105,'Shipped'),
+	(5,'Math','Essential Calculus III','James Stewart',201,'Available'),
+	(6,'Math','Statistics 101','John Doe',25,'Shipped'),
+	(7,'Computer Science','Algorithms','John Doe',250,'Available'),
+	(8,'Fiction','Game of Thrones','George RR. Martin',25,'Available'),
+	(9,'Fiction','Harry Potter','JK Rowling',100,'Shipped'),
+	(10,'Computer Science','Web Design for Nubes','Brian Welsh',4,'Available'),
+	(11,'gtbetyh','ythruytn','yth6uj',300,'Available'),
+	(12,'math','intro to math','math wizard',7000,'Available');
 
 /*!40000 ALTER TABLE `bookinfo` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -60,7 +63,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_info`;
 
 CREATE TABLE `user_info` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(45) NOT NULL,
   `user_type` varchar(6) NOT NULL,
   `user_password` varchar(100) NOT NULL,
@@ -72,13 +75,13 @@ LOCK TABLES `user_info` WRITE;
 
 INSERT INTO `user_info` (`user_id`, `user_name`, `user_type`, `user_password`)
 VALUES
-	(0,'Rafi Rafsan','Seller','password1'),
-	(1,'Brian Welsh','Seller','Password2'),
-	(2,'Beibei Zhang','Buyer','password3'),
-	(3,'Zhijan Chen','Seller','password4'),
-	(4,'Jiaqi Chen','Buyer','password4'),
-	(5,'Michael Scott','Buyer','dundermifflin'),
-	(6,'Bruce Wayne','Seller','Batman');
+	(1,'Rafi Rafsan','Seller','password1'),
+	(2,'Brian Welsh','Seller','Password2'),
+	(3,'Beibei Zhang','Buyer','password3'),
+	(4,'Zhijan Chen','Seller','password4'),
+	(5,'Jiaqi Feng','Buyer','password4'),
+	(6,'Michael Scott','Buyer','dundermifflin'),
+	(7,'Bruce Wayne','Seller','Batman');
 
 /*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
 UNLOCK TABLES;

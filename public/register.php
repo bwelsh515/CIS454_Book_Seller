@@ -8,109 +8,112 @@
  *  Redirect to Login Page
  */
 
-// Include config file
-require_once "../config.php";
-
-// Define variables and initialize with empty values
-$username = "";
-$password = "";
-$confirm_password = "";
-$username_err = "";
-$password_err = "";
-$confirm_password_err = "";
-
 // Processing form data when form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['submit'])) {
+    require "../config.php";
+    require "../common.php";
 
-    $username_input = trim($_POST["username"]);
-    if (empty($username_input)) {
-        $username_err = "Please enter a username.";
-    } else {
-        // Prepare a select statement
-        $sql = "SELECT id FROM users_info WHERE user_name = ?";
+    $username = $password = $confirm_password = "";
+    $username_err = $password_err = $confirm_password_err = "";
+    $usertype = $usertype_err = "";
 
-        if ($stmt = $mysqli->prepare($sql)) {
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("s", $param_username);
+    try {
+        $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 
-            // Set parameters
-            $param_username = $username_input;
+        // CHECK USERNAME
+        if (empty(trim($_POST["username"]))) {
+            $username_err = "Please enter a username.";
+        } else {
+            // Prepare a select statement
+            $sql = "SELECT user_id FROM user_info WHERE user_name = :username";
 
-            // Attempt to execute the prepared statement
-            if ($stmt->execute()) {
-                // store result
-                $stmt->store_result();
+            if ($stmt = $connection->prepare($sql)) {
+                // Bind variables to the prepared statement as parameters
+                $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
 
-                if ($stmt->num_rows == 1) {
-                    $username_err = "This username is already taken.";
+                // Set parameters
+                $param_username = trim($_POST["username"]);
+
+                // Attempt to execute the prepared statement
+                if ($stmt->execute()) {
+                    if ($stmt->rowCount() == 1) {
+                        $username_err = "This username is already taken.";
+                    } else {
+                        $username = trim($_POST["username"]);
+                    }
                 } else {
-                    $username = $username_input;
+                    echo "Oops! Something went wrong. Please try again later.";
                 }
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
+            }
+            // Close statement
+            unset($stmt);
+        }
+
+        // CHECK PASSWORD
+        if (empty(trim($_POST["password"]))) {
+            $password_err = "Please enter a password.";
+        } elseif (strlen(trim($_POST["password"])) < 6) {
+            $password_err = "Password must have atleast 6 characters.";
+        } else {
+            $password = trim($_POST["password"]);
+        }
+
+        // CHECK CONFIRM PASSWORD
+        // Validate confirm password
+        if (empty(trim($_POST["confirm_password"]))) {
+            $confirm_password_err = "Please confirm password.";
+        } else {
+            $confirm_password = trim($_POST["confirm_password"]);
+            if (empty($password_err) && ($password != $confirm_password)) {
+                $confirm_password_err = "Password did not match.";
             }
         }
 
-        // Close statement
-        $stmt->close();
-    }
-
-    // Validate password
-    if (empty(trim($_POST["password"]))) {
-        $password_err = "Please enter a password.";
-    } elseif (strlen(trim($_POST["password"])) < 6) {
-        $password_err = "Password must have atleast 6 characters.";
-    } else {
-        $password = trim($_POST["password"]);
-    }
-
-    // Validate confirm password
-    if (empty(trim($_POST["confirm_password"]))) {
-        $confirm_password_err = "Please confirm password.";
-    } else {
-        $confirm_password = trim($_POST["confirm_password"]);
-        if (empty($password_err) && ($password != $confirm_password)) {
-            $confirm_password_err = "Password did not match.";
+        // CHECK RADIO SELECTION
+        if (isset($_POST['radio'])) {
+            $usertype = $_POST['radio'];
+        } else {
+            $usertype_err = "Please Select a User Type";
         }
-    }
+        // Add new user to database
+        // Check input errors before inserting in database
+        if (empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($usertype_err)) {
+            $new_user = array(
+                "user_name" => $_POST["username"],
+                "user_type" => $_POST["radio"],
+                "user_password" => $_POST["password"],
+            );
 
-    // Check input errors before inserting in database
-    if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
+            $sql = sprintf(
+                "INSERT INTO %s (%s) values (%s)",
+                "user_info",
+                implode(", ", array_keys($new_user)),
+                ":" . implode(", :", array_keys($new_user))
+            );
 
-        // Prepare an insert statement
-        $sql = "INSERT INTO user_info (username, password) VALUES (?, ?)";
-
-        if ($stmt = $mysqli->prepare($sql)) {
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("ss", $param_username, $param_password);
-
-            // Set parameters
-            $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-
-            // Attempt to execute the prepared statement
-            if ($stmt->execute()) {
+            $statement = $connection->prepare($sql);
+            if ($statement->execute($new_user)) {
                 // Redirect to login page
                 header("location: login.php");
             } else {
                 echo "Something went wrong. Please try again later.";
             }
+
         }
-
-        // Close statement
-        $stmt->close();
+    } catch (PDOException $error) {
+        echo $sql . "<br>" . $error->getMessage();
     }
-
-    // Close connection
-    $mysqli->close();
 }
 ?>
 
 <?php require "templates/header.php";?>
+<?php if (isset($_POST['submit']) && $statement) {?>
+	<blockquote><?php echo $_POST['username']; ?> successfully added.</blockquote>
+<?php }?>
     <div class="wrapper">
         <h2>Register An Account</h2>
         <p>Please fill this form to create an account.</p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
                 <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
@@ -131,18 +134,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-row">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="radioOptions" id="radioBuyer" value="buyer">
-                    <label class="form-check-label" for="inlineRadio1">Buyer</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="radioOptions" id="radioSeller" value="seller">
-                    <label class="form-check-label" for="inlineRadio2">Seller</label>
+                <div class="form-group <?php echo (!empty($usertype_err)) ? 'has-error' : ''; ?>">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio" id="radioBuyer" value="Buyer">
+                        <label class="form-check-label" for="inlineRadio1">Buyer</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radio" id="radioSeller" value="Seller">
+                        <label class="form-check-label" for="inlineRadio2">Seller</label>
+                    </div>
+                    <span class="help-block"><?php echo $usertype_err; ?></span>
                 </div>
             </div>
 
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Submit">
+                <input type="submit" name="submit" class="btn btn-primary" value="Submit">
             </div>
             <p>Already have an account? <a href="login.php">Login here</a>.</p>
         </form>

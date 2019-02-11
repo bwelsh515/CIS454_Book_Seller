@@ -5,6 +5,13 @@
  *  Store data into bookinfo DB
  *  Provide Success message
  */
+session_start();
+
+// Prevent the user from accessing the page without being logged in.
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
+    header("location: login.php");
+    exit;
+}
 
 if (isset($_POST['submit'])) {
     require "../config.php";
@@ -13,7 +20,7 @@ if (isset($_POST['submit'])) {
     try {
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 
-        $new_user = array(
+        $new_textbook = array(
             "book_genre" => $_POST['Genre'],
             "book_name" => $_POST['Name'],
             "book_author" => $_POST['Author'],
@@ -24,12 +31,12 @@ if (isset($_POST['submit'])) {
         $sql = sprintf(
             "INSERT INTO %s (%s) values (%s)",
             "bookinfo",
-            implode(", ", array_keys($new_user)),
-            ":" . implode(", :", array_keys($new_user))
+            implode(", ", array_keys($new_textbook)),
+            ":" . implode(", :", array_keys($new_textbook))
         );
 
         $statement = $connection->prepare($sql);
-        $statement->execute($new_user);
+        $statement->execute($new_textbook);
     } catch (PDOException $error) {
         echo $sql . "<br>" . $error->getMessage();
     }
@@ -45,7 +52,10 @@ if (isset($_POST['submit'])) {
 <div class="container">
     <div class="page-header clearfix">
         <h2 class="pull-left">Sell a Textbook</h2>
-        <a href="index.php" class="btn btn-success pull-right">Back To Textbooks</a>
+        <div class="btn-toolbar">
+			<a href="logout.php" class="btn btn-danger pull-right">Logout</a>
+            <a href="index.php" class="btn btn-success pull-right">Back To Textbooks</a>
+		</div>
     </div>
 
     <div class="wrapper">
