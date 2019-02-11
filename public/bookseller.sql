@@ -6,8 +6,8 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.7.23)
-# Database: BookSeller
-# Generation Time: 2019-02-10 19:52:55 +0000
+# Database: bookseller
+# Generation Time: 2019-02-11 21:42:23 +0000
 # ************************************************************
 
 
@@ -55,6 +55,20 @@ VALUES
 
 /*!40000 ALTER TABLE `bookinfo` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table reports
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `reports`;
+
+CREATE TABLE `reports` (
+  `report_id` int(11) NOT NULL,
+  `report_title` varchar(500) NOT NULL,
+  `description` varchar(500) NOT NULL,
+  `report_status` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 # Dump of table user_info
