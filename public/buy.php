@@ -7,18 +7,20 @@
  *  Else, report error
  */
 session_start();
+
+// Prevent the user from accessing the page without being logged in.
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
+    header("location: login.php");
+    exit;
+}
+
 require_once "../config.php";
 require "../common.php";
+
 $book_name = $book_price = "";
 $book_id = $_GET['bookid'];
 $purchased = false;
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
 
-    header("location: login.php");
-
-    exit;
-
-    }
 try {
     // Try to connect to DB. Select all from bookinfo table.
     $connection = new PDO($dsn, $db_username, $db_password, $db_options);
@@ -72,7 +74,8 @@ if (isset($_POST['submit'])) {
 
     </div>
 <?php } else {?>
-<h3>You have successfully purchased the textbook.</h3>
+<!-- TODO: Add User Location into Success Message -->
+<h3>You have successfully purchased the textbook. The textbook is being sent to your address.</h3>
 </div>
 <?php }?>
 
