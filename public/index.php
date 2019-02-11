@@ -5,21 +5,22 @@
  *  Else, provide link to Sell textbook if Seller
  *
  */
-
 session_start();
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
 
+    header("location: login.php");
+
+    exit;
+
+    }
 try {
     // Try to connect to DB. Select all from bookinfo table.
     require_once "../config.php";
     require "../common.php";
-
     $connection = new PDO($dsn, $db_username, $db_password, $db_options);
-
     $sql = "SELECT * FROM bookinfo";
-
     $statement = $connection->prepare($sql);
     $statement->execute();
-
     $result = $statement->fetchAll();
 } catch (PDOException $error) {
     echo $sql . "<br>" . $error->getMessage();
@@ -63,7 +64,6 @@ if ($result && $statement->rowCount() > 0) {?>
 						<?php if (escape($row["is_available"] == "Available")) {
     $_SESSION['book_name'] = $row['book_name'];
     echo "<td><a href=\"buy.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Buy Textbook</a></td>";
-
 } else {
     echo "<td></td>";
 }?>
