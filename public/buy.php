@@ -6,21 +6,25 @@
  *  If Successful, display success message
  *  Else, report error
  */
-
 session_start();
 require_once "../config.php";
 require "../common.php";
-
 $book_name = $book_price = "";
 $book_id = $_GET['bookid'];
 $purchased = false;
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
+
+    header("location: login.php");
+
+    exit;
+
+    }
 try {
     // Try to connect to DB. Select all from bookinfo table.
     $connection = new PDO($dsn, $db_username, $db_password, $db_options);
     $sql = "SELECT * FROM bookinfo WHERE book_id = :id";
     if ($stmt = $connection->prepare($sql)) {
         $stmt->bindParam(":id", $book_id);
-
         if ($stmt->execute()) {
             if ($stmt->rowCount() == 1) {
                 if ($row = $stmt->fetch()) {
@@ -34,13 +38,10 @@ try {
 } catch (PDOException $error) {
     echo $sql . "<br>" . $error->getMessage();
 }
-
 if (isset($_POST['submit'])) {
     try {
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
-
         $sql = "UPDATE bookinfo SET is_available = 'Shipped' WHERE book_id = :id";
-
         if ($stmt = $connection->prepare($sql)) {
             $stmt->bindParam(":id", $book_id);
         }
