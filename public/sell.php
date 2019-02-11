@@ -6,6 +6,13 @@
  *  Provide Success message
  */
 
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
+
+    header("location: login.php");
+
+    exit;
+
+    }
 if (isset($_POST['submit'])) {
     require "../config.php";
     require "../common.php";
