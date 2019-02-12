@@ -54,6 +54,7 @@ if ($result && $statement->rowCount() > 0) {?>
 						<th>Price</th>
 						<th>Availability</th>
 						<th>Actions</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -64,6 +65,9 @@ if ($result && $statement->rowCount() > 0) {?>
 						<td><?php echo escape($row["book_author"]); ?></td>
 						<td>$<?php echo escape($row["book_price"]); ?></td>
 						<td><?php echo escape($row["is_available"]); ?></td>
+
+						<?php $_SESSION['book_name'] = $row['book_name'];
+    echo "<td><a href=\"edit.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Edit Textbook</a></td>";?>
 						<!-- TODO: Add Check if user_type is Buyer -->
 						<!-- Display a Buy Button if textbook is available and user is buyer -->
 						<?php if (escape($row["is_available"] == "Available")) {
