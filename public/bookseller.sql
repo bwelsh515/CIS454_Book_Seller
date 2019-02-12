@@ -97,8 +97,8 @@ VALUES
 	(6,'Michael Scott','Buyer','dundermifflin'),
 	(7,'Bruce Wayne','Seller','Batman'),
 	(8,'admin','admin','admin'),
-	(9,'admin','Buyer','admin'),
-	(10,'admin','Seller','admin');
+	(9,'buyer','Buyer','buyer'),
+	(10,'seller','Seller','seller');
 
 /*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
 UNLOCK TABLES;
