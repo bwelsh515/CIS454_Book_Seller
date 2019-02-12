@@ -30,12 +30,12 @@ try {
     $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 
     // TODO: make sure this matches table
-    // $sql = "SELECT * FROM reports";
+    $sql = "SELECT * FROM reports";
 
-    // $statement = $connection->prepare($sql);
-    // $statement->execute();
+    $statement = $connection->prepare($sql);
+    $statement->execute();
 
-    // $result = $statement->fetchAll();
+    $result = $statement->fetchAll();
 } catch (PDOException $error) {
     echo $sql . "<br>" . $error->getMessage();
 }
@@ -55,7 +55,7 @@ if ($result && $statement->rowCount() > 0) {?>
 				<thead class="thead-dark/">
 					<tr>
                         <th>Status</th>
-                        <th>Creator</th>
+                        <!-- <th>Creator</th> -->
 						<th>Title</th>
 						<th>Description</th>
 					</tr>
@@ -64,9 +64,9 @@ if ($result && $statement->rowCount() > 0) {?>
 				<?php foreach ($result as $row) {?>
 					<tr>
                         <td><?php echo escape($row["report_status"]); ?></td>
-                        <td><?php echo escape($row["report_creator"]); ?></td>
+                        <!-- <td><?php echo escape($row["report_creator"]); ?></td> -->
 						<td><?php echo escape($row["report_title"]); ?></td>
-						<td><?php echo escape($row["report_description"]); ?></td>
+						<td><?php echo escape($row["description"]); ?></td>
 						<!-- TODO: display edit/delete buttons if admin or owner of book (seller) -->
 					</tr>
 				<?php }?>

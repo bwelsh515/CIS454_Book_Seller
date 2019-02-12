@@ -23,9 +23,10 @@ if (isset($_POST['submit'])) {
 
         // TODO: make sure this is correct
         $new_report = array(
+            "report_id" => 10,
             "report_title" => $_POST['Title'],
-            "report_description" => $_POST['Description'],
-            "report_creator" => $_SESSION["id"],
+            "description" => $_POST['Description'],
+            // "report_creator" => $_SESSION["id"],
             "report_status" => "Open",
         );
 
@@ -38,7 +39,7 @@ if (isset($_POST['submit'])) {
         );
 
         $statement = $connection->prepare($sql);
-        $statement->execute($new_textbook);
+        $statement->execute($new_report);
     } catch (PDOException $error) {
         echo $sql . "<br>" . $error->getMessage();
     }
