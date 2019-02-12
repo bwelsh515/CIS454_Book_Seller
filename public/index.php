@@ -11,8 +11,12 @@ $change = "";
 $sql = "SELECT * FROM bookinfo";
 
 // If the sort button is pressed, change the SQL statement
-if (isset($_POST['filter'])) {
-    $sql = "SELECT * FROM bookinfo ORDER BY book_name";
+if (isset($_POST['submit'])) {
+    if ($_POST['search'] === "") {
+        $sql = "SELECT * FROM bookinfo";
+    } else {
+        $sql = "SELECT * FROM bookinfo WHERE book_name = '" . $_POST['search'] . "'";
+    }
 }
 
 // Prevent the user from accessing the page without being logged in.
@@ -58,8 +62,11 @@ try {
 		</div>
 	</div>
 	<div>
-		<form method="POST">
-			<input type="submit" name="filter" class="btn btn-primary" value="Filter Textbooks By Name">
+		<form method="POST" class="form-inline">
+			<div class="form-row">
+				<input type="text" name="search" value="" class="form-control" placeholder="Enter Name Exactly">
+				<input type="submit" name="submit" class="btn btn-primary" value="Search Textbooks By Name">
+			</div>
 		</form>
 	</div>
 	<br></br>
