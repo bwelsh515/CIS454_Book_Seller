@@ -6,8 +6,8 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.7.23)
-# Database: bookseller
-# Generation Time: 2019-02-11 21:42:23 +0000
+# Database: BookSeller
+# Generation Time: 2019-02-12 00:51:50 +0000
 # ************************************************************
 
 
@@ -95,7 +95,10 @@ VALUES
 	(4,'Zhijan Chen','Seller','password4'),
 	(5,'Jiaqi Feng','Buyer','password4'),
 	(6,'Michael Scott','Buyer','dundermifflin'),
-	(7,'Bruce Wayne','Seller','Batman');
+	(7,'Bruce Wayne','Seller','Batman'),
+	(8,'admin','admin','admin'),
+	(9,'admin','Buyer','admin'),
+	(10,'admin','Seller','admin');
 
 /*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
 UNLOCK TABLES;

@@ -36,12 +36,20 @@ try {
 <div class="container">
 	<div class="page-header clearfix">
 		<h2 class="pull-left">Textbooks For Sale</h2>
-		<!-- TODO: only display button if SELLER -->
 		<div class="btn-toolbar">
 			<a href="logout.php" class="btn btn-danger pull-right">Logout</a>
-			<a href="sell.php" class="btn btn-success pull-right">Add New Textbook</a>
+			<!-- only display 'Add new Textbook' button if SELLER -->
+			<?php if ($_SESSION["usertype"] == "Seller") {?>
+				<a href="sell.php" class="btn btn-success pull-right">Add New Textbook</a>
+			 <?php }?>
+			 <?php if ($_SESSION["usertype"] !== "Admin") {?>
+				<a href="create_report.php" class="btn btn-warning pull-right">Submit a Report</a>
+			 <?php } else {?>
+				<a href="reports.php" class="btn btn-warning pull-right">View User Reports</a>
+			 <?php }?>
 		</div>
 	</div>
+
 	<?php
 // Display a table with all results from the query
 if ($result && $statement->rowCount() > 0) {?>
@@ -54,6 +62,7 @@ if ($result && $statement->rowCount() > 0) {?>
 						<th>Price</th>
 						<th>Availability</th>
 						<th>Actions</th>
+
 					</tr>
 				</thead>
 				<tbody>
@@ -64,15 +73,18 @@ if ($result && $statement->rowCount() > 0) {?>
 						<td><?php echo escape($row["book_author"]); ?></td>
 						<td>$<?php echo escape($row["book_price"]); ?></td>
 						<td><?php echo escape($row["is_available"]); ?></td>
-						<!-- TODO: Add Check if user_type is Buyer -->
+						<!-- TODO: display edit/delete buttons if admin or owner of book (seller) -->
 						<!-- Display a Buy Button if textbook is available and user is buyer -->
-						<?php if (escape($row["is_available"] == "Available")) {
-    $_SESSION['book_name'] = $row['book_name'];
-    echo "<td><a href=\"buy.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Buy Textbook</a></td>";
-
-} else {
-    echo "<td></td>";
-}?>
+						<td>
+							<div class="btn-toolbar">
+						<?php if (escape($row["is_available"] == "Available" && $_SESSION["usertype"] == "Buyer")) {
+							echo "<a href=\"buy.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Buy Textbook</a>";
+						}?>
+						<?php 
+							echo "<a href=\"edit.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Edit Textbook</a>";
+						?>
+	</div>
+						</td>
 					</tr>
 				<?php }?>
 				</tbody>
