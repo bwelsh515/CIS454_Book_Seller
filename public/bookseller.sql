@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.23)
 # Database: BookSeller
-# Generation Time: 2019-02-12 00:51:50 +0000
+# Generation Time: 2019-02-12 18:16:43 +0000
 # ************************************************************
 
 
@@ -96,7 +96,7 @@ VALUES
 	(5,'Jiaqi Feng','Buyer','password4'),
 	(6,'Michael Scott','Buyer','dundermifflin'),
 	(7,'Bruce Wayne','Seller','Batman'),
-	(8,'admin','admin','admin'),
+	(8,'admin','Admin','admin'),
 	(9,'buyer','Buyer','buyer'),
 	(10,'seller','Seller','seller');
 
