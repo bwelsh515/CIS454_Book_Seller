@@ -62,7 +62,6 @@ if ($result && $statement->rowCount() > 0) {?>
 						<th>Price</th>
 						<th>Availability</th>
 						<th>Actions</th>
-
 					</tr>
 				</thead>
 				<tbody>
@@ -78,11 +77,11 @@ if ($result && $statement->rowCount() > 0) {?>
 						<td>
 							<div class="btn-toolbar">
 						<?php if (escape($row["is_available"] == "Available" && $_SESSION["usertype"] == "Buyer")) {
-							echo "<a href=\"buy.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Buy Textbook</a>";
-						}?>
-						<?php 
-							echo "<a href=\"edit.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Edit Textbook</a>";
-						?>
+    echo "<a href=\"buy.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Buy Textbook</a>";
+}?>
+						<?php
+echo "<a href=\"edit.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Edit Textbook</a>";
+    ?>
 	</div>
 						</td>
 					</tr>
