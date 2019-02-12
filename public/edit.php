@@ -16,13 +16,19 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
 require "../config.php";
 require "../common.php";
 
-
+$id = "";
+$is_available = "Available";
+$book =[
+      "book_genre" => "",
+      "book_name"  => "",
+      "book_author"     => "",
+      "book_price"       => "",
+    ];
 
 if (isset($_POST['submit'])) {
   try {
     $connection = new PDO($dsn, $db_username, $db_password, $db_options);
     $book =[
-      "id"        => $_POST['id'],
       "book_genre" => $_POST['book_genre'],
       "book_name"  => $_POST['book_name'],
       "book_author"     => $_POST['book_author'],
@@ -30,11 +36,13 @@ if (isset($_POST['submit'])) {
     ];
 
     $sql = "UPDATE bookinfo 
-            SET  book_genre = :book_genre, 
+            SET  book_id = :id,
+              book_genre = :book_genre, 
               book_name = :book_name, 
               book_author = :book_author, 
-              book_price = :book_price
-            WHERE id = :id";
+              book_price = :book_price,
+              is_available = :is_available
+            WHERE book_id = :id";
   
   $statement = $connection->prepare($sql);
   $statement->execute($book);
@@ -43,11 +51,11 @@ if (isset($_POST['submit'])) {
   }
 }
   
-if (isset($_GET['id'])) {
+if (isset($_GET['bookid'])) {
   try {
     $connection = new PDO($dsn, $db_username, $db_password, $db_options);
-    $id = $_GET['id'];
-    $sql = "SELECT * FROM bookinfo WHERE id = :id";
+    $id = $_GET['bookid'];
+    $sql = "SELECT * FROM bookinfo WHERE book_id = :id";
     $statement = $connection->prepare($sql);
     $statement->bindValue(':id', $id);
     $statement->execute();
