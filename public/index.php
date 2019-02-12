@@ -7,6 +7,13 @@
  */
 
 session_start();
+$change = "";
+$sql = "SELECT * FROM bookinfo";
+
+// If the sort button is pressed, change the SQL statement
+if (isset($_POST['filter'])) {
+    $sql = "SELECT * FROM bookinfo ORDER BY book_name";
+}
 
 // Prevent the user from accessing the page without being logged in.
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
@@ -21,7 +28,7 @@ try {
 
     $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 
-    $sql = "SELECT * FROM bookinfo";
+    // $sql = "SELECT * FROM bookinfo";
 
     $statement = $connection->prepare($sql);
     $statement->execute();
@@ -30,6 +37,7 @@ try {
 } catch (PDOException $error) {
     echo $sql . "<br>" . $error->getMessage();
 }
+
 ?>
 
 <?php require "templates/header.php";?>
@@ -49,7 +57,12 @@ try {
 			 <?php }?>
 		</div>
 	</div>
-
+	<div>
+		<form method="POST">
+			<input type="submit" name="filter" class="btn btn-primary" value="Filter Textbooks By Name">
+		</form>
+	</div>
+	<br></br>
 	<?php
 // Display a table with all results from the query
 if ($result && $statement->rowCount() > 0) {?>
@@ -83,7 +96,7 @@ if ($result && $statement->rowCount() > 0) {?>
     echo "<a href=\"edit.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Edit Textbook</a>";
     echo "<a href=\"delete.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Delete Textbook</a>";
 }?>
-						
+
 
 						</td>
 					</tr>
