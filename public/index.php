@@ -15,7 +15,10 @@ if (isset($_POST['submit'])) {
     if ($_POST['search'] === "") {
         $sql = "SELECT * FROM bookinfo";
     } else {
-        $sql = "SELECT * FROM bookinfo WHERE book_name = '" . $_POST['search'] . "'";
+        $sql = "SELECT * FROM bookinfo WHERE 
+        (SUBSTRING(LOWER(book_name), 1, " . strlen($_POST['search']).")  = LOWER('" . $_POST['search'] . "')) 
+        or (SUBSTRING(LOWER(book_genre), 1, " . strlen($_POST['search']).") = LOWER('" . $_POST['search'] . "')) 
+        or (SUBSTRING(LOWER(book_author), 1, " . strlen($_POST['search']).") = LOWER('" . $_POST['search'] . "')) ";
     }
 }
 
