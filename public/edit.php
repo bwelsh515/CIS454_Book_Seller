@@ -22,7 +22,7 @@ $book =[
       "book_genre" => "",
       "book_name"  => "",
       "book_author"     => "",
-      "book_price"       => "",
+      "book_price"       => ""
     ];
 
 if (isset($_POST['submit'])) {
@@ -32,7 +32,7 @@ if (isset($_POST['submit'])) {
       "book_genre" => $_POST['book_genre'],
       "book_name"  => $_POST['book_name'],
       "book_author"     => $_POST['book_author'],
-      "book_price"       => $_POST['book_price'],
+      "book_price"       => $_POST['book_price']
     ];
 
     $sql = "UPDATE bookinfo 
