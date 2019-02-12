@@ -79,10 +79,12 @@ if ($result && $statement->rowCount() > 0) {?>
 						<?php if (escape($row["is_available"] == "Available" && $_SESSION["usertype"] == "Buyer")) {
     echo "<a href=\"buy.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Buy Textbook</a>";
 }?>
-						<?php
-echo "<a href=\"edit.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Edit Textbook</a>";
-    ?>
-	</div>
+<?php if (escape($row["is_available"] == "Available" && $_SESSION["usertype"] == "Seller")) {
+    echo "<a href=\"edit.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Edit Textbook</a>";
+    echo "<a href=\"delete.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Delete Textbook</a>";
+}?>
+						
+
 						</td>
 					</tr>
 				<?php }?>
