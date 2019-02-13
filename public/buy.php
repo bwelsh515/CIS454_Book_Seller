@@ -120,7 +120,10 @@ if (isset($_POST['submit'])) {
 <!-- Display success message after purchase -->
 <?php } else {?>
 <!-- TODO: Add User Location into Success Message -->
-<blockquote>You have successfully purchased the textbook with your <strong><?php echo $cardtype ?></strong>. The textbook is being sent to your address.</blockquote>
+<blockquote>
+    <p>You have successfully purchased the textbook with your <strong><?php echo $cardtype ?></strong>. The textbook is being sent to your address.</p>
+    <p>A confirmation email is being sent to <strong><?php echo $_SESSION["email"]; ?></strong> Thank you for shopping with us!</p>
+</blockquote>
 </div>
 <?php }?>
 

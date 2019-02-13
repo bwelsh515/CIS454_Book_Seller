@@ -21,7 +21,8 @@ if (isset($_POST['submit'])) {
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 
         $new_textbook = array(
-            "book_genre" => $_POST['Genre'],
+            "ISBN" => $_POST['ISBN'],
+            "course_number" => $_POST['CourseNumber'],
             "book_name" => $_POST['Name'],
             "book_author" => $_POST['Author'],
             "book_price" => $_POST['Price'],
@@ -61,9 +62,15 @@ if (isset($_POST['submit'])) {
     <div class="wrapper">
         <form method="post">
             <div class="form-group row">
-                <label for="Genre" class="col-sm-2 col-form-label">Book Genre</label>
+                <label for="ISBN" class="col-sm-2 col-form-label">ISBN</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" name="Genre" id="Genre" placeholder="Enter the Genre of the Book">
+                    <input class="form-control" type="text" name="ISBN" id="ISBN" placeholder="Enter the ISBN of the Book">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="CourseNumber" class="col-sm-2 col-form-label">Course Number</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="CourseNumber" id="CourseNumber" placeholder="Enter the Course Number">
                 </div>
             </div>
             <div class="form-group row">
@@ -87,7 +94,6 @@ if (isset($_POST['submit'])) {
             <input type="submit" name="submit" class="btn btn-primary btn-md pull-right" value="Submit">
         </form>
     </div>
-
 </div>
 
 <?php require "templates/footer.php";?>

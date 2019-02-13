@@ -7,15 +7,14 @@
  *  Hash password and store information in DB
  *  Redirect to Login Page
  */
-    $username = $password = $confirm_password = "";
-    $username_err = $password_err = $confirm_password_err = "";
-    $usertype = $usertype_err = "";
+$username = $password = $confirm_password = "";
+$email = $email_err = "";
+$username_err = $password_err = $confirm_password_err = "";
+$usertype = $usertype_err = "";
 // Processing form data when form is submitted
 if (isset($_POST['submit'])) {
     require "../config.php";
     require "../common.php";
-
-   
 
     try {
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
@@ -47,6 +46,13 @@ if (isset($_POST['submit'])) {
             }
             // Close statement
             unset($stmt);
+        }
+
+        // CHECK EMAIL
+        if (empty(trim($_POST["email"]))) {
+            $email_err = "Please enter an email.";
+        } else {
+            $email = trim($_POST["email"]);
         }
 
         // CHECK PASSWORD
@@ -82,6 +88,7 @@ if (isset($_POST['submit'])) {
                 "user_name" => $_POST["username"],
                 "user_type" => $_POST["radio"],
                 "user_password" => $_POST["password"],
+                "user_email" => $_POST['email'],
             );
 
             $sql = sprintf(
@@ -119,6 +126,11 @@ if (isset($_POST['submit'])) {
                 <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $username_err; ?></span>
             </div>
+            <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" value="<?php echo $email; ?>">
+                <span class="help-block"><?php echo $email_err; ?></span>
+            </div>
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
                 <label>Password</label>
                 <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
@@ -134,6 +146,7 @@ if (isset($_POST['submit'])) {
             </div>
 
             <div class="form-row">
+                <label>User Type</label>
                 <div class="form-group <?php echo (!empty($usertype_err)) ? 'has-error' : ''; ?>">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="radio" id="radioBuyer" value="Buyer">

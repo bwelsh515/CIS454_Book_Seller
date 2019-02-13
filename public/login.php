@@ -51,12 +51,14 @@ if (isset($_POST['submit'])) {
                         if ($row = $stmt->fetch()) {
                             $user_id = $row["user_id"];
                             $user_type = $row["user_type"];
+                            $email = $row["user_email"];
                         }
                         // Store the user information into a session on success
                         $_SESSION["loggedin"] = true;
                         $_SESSION["id"] = $id;
                         $_SESSION["username"] = $username;
                         $_SESSION["usertype"] = $user_type;
+                        $_SESSION["email"] = $email;
 
                         // Redirect user to welcome page
                         header("location: index.php");
