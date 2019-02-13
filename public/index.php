@@ -16,11 +16,13 @@ if (isset($_POST['submit'])) {
         $sql = "SELECT * FROM bookinfo";
     } else {
         $sql = "SELECT * FROM bookinfo WHERE 
-        (SUBSTRING(LOWER(book_name), 1, " . strlen($_POST['search']).")  = LOWER('" . $_POST['search'] . "')) 
-        or (SUBSTRING(LOWER(book_genre), 1, " . strlen($_POST['search']).") = LOWER('" . $_POST['search'] . "')) 
-        or (SUBSTRING(LOWER(book_author), 1, " . strlen($_POST['search']).") = LOWER('" . $_POST['search'] . "')) ";
+        (LOCATE('" . $_POST['search'] . "',book_name)>0)
+        or (LOCATE('" . $_POST['search'] . "',book_genre)>0)
+        or (LOCATE('" . $_POST['search'] . "',book_author)>0)
+         ";
     }
 }
+
 
 // Prevent the user from accessing the page without being logged in.
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
