@@ -3,20 +3,27 @@
 /**
  * Delete a user
  */
+session_start();
+
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
+    header("location: login.php");
+    exit;
+}
+$book_id = $_GET['bookid'];
+$success = "";
 
 require "../config.php";
 require "../common.php";
 
-if (isset($_GET[" id"])) {
+if (isset($_GET["bookid"])) {
   try {
-    $connection = new PDO($dsn, $username, $password, $options);
+    $connection = new PDO($dsn, $db_username, $db_password, $db_options);
   
-    $book_id = $_GET["book_id"];
 
-    $sql = "DELETE FROM users WHERE id = :id";
+    $sql = "DELETE FROM bookinfo WHERE book_id = :id";
 
     $statement = $connection->prepare($sql);
-    $statement->bindValue(':id', $id);
+    $statement->bindValue(':id', $book_id);
     $statement->execute();
 
     $success = "User successfully deleted";
@@ -25,53 +32,8 @@ if (isset($_GET[" id"])) {
   }
 }
 
-try {
-  $connection = new PDO($dsn, $username, $password, $options);
-
-  $sql = "SELECT * FROM bookinfo";
-
-  $statement = $connection->prepare($sql);
-  $statement->execute();
-
-  $result = $statement->fetchAll();
-} catch(PDOException $error) {
-  echo $sql . "<br>" . $error->getMessage();
-}
 ?>
-<?php require "templates/header.php"; ?>
-        
-<h2>Delete users</h2>
-
-<?php if ($success) echo $success; ?>
-
-<table>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th> Genre</th>
-      <th> Name</th>
-      <th> Author</th>
-      <th> Price</th>
-      <th>Is Available</th>
-      <th>Delete</th>
-    </tr>
-  </thead>
-  <tbody>
-  <?php foreach ($result as $row) : ?>
-    <tr>
-      <td><?php echo escape($row["book_id"]); ?></td>
-      <td><?php echo escape($row["book_genre"]); ?></td>
-      <td><?php echo escape($row["book_name"]); ?></td>
-      <td><?php echo escape($row["book_author"]); ?></td>
-      <td><?php echo escape($row["book_price"]); ?></td>
-      <td><?php echo escape($row["is_available"]); ?></td>
-     
-      <td><a href="delete.php?id=<?php echo escape($row["id"]); ?>">Delete</a></td>
-    </tr>
-  <?php endforeach; ?>
-  </tbody>
-</table>
-
-<a href="index.php">Back to home</a>
+<h1 class="text" style=" text-align:center;">This book is successfully deleted</h1>
+<a href="index.php" class="btn btn-danger pull-right">Back to previous page</a>
 
 <?php require "templates/footer.php"; ?>
