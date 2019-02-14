@@ -83,7 +83,7 @@ if ($result && $statement->rowCount() > 0) {?>
 				<?php foreach ($result as $row) {?>
 					<tr>
                         <td><?php echo escape($row["report_status"]); ?></td>
-                        <!-- <td><?php echo escape($row["report_creator"]); ?></td> -->
+                        <td><?php echo escape($row["report_creator"]); ?></td> 
 						<td><?php echo escape($row["report_title"]); ?></td>
 						<td><?php echo escape($row["description"]); ?></td>
 						<td>
