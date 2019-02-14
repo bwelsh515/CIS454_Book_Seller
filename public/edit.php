@@ -25,8 +25,8 @@ $book = [
     "book_name" => "",
     "book_author" => "",
     "book_price" => "",
-    "is_available" => ""
-    "book_creater" => "",
+    "is_available" => "",
+    "book_creator" => "",
 ];
 
 if (isset($_POST['submit'])) {
@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
             "book_author" => $_POST['book_author'],
             "book_price" => $_POST['book_price'],
             "is_available" => $_POST['is_available'],
-            "book_creater" => $_POST['book_creater'],
+            "book_creator" => $_POST['book_creator'],
         ];
         $sql = "UPDATE bookinfo
             SET  book_id = :book_id,
@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
               book_author = :book_author,
               book_price = :book_price,
               is_available = :is_available
-              book_creater = :book_creater
+              book_creator = :book_creator
             WHERE book_id = :book_id";
         $statement = $connection->prepare($sql);
         $statement->execute($book);
@@ -96,14 +96,14 @@ if (isset($_GET['bookid'])) {
     <div class="wrapper">
         <form method="post">
             <?php foreach ($book as $key => $value): ?>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="<?php echo $key; ?>"><?php echo ucfirst($key); ?></label>
-                    <div class="col-sm-10">
-                        <?php if ($key !== 'book_id' || $key !== 'is_available' || $key !== 'book_creater'? 'readonly' : null) {?>
+                <?php if ($key !== 'book_id' && $key !== 'is_available' && $key !== 'book_creator') {?>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="<?php echo $key; ?>"><?php echo ucfirst($key); ?></label>
+                        <div class="col-sm-10">
                             <input class="form-control" type="text" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>">
-                        <?php }?>   
-            </div>
-            </div>
+                    </div>
+                </div>
+            <?php }?>
             <?php endforeach;?>
                 <input type="submit" name="submit" class="btn btn-primary btn-md pull-right" value="Submit">
         </form>
