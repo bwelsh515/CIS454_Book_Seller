@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
 <?php require "templates/header.php";?>
 
 <?php if (isset($_POST['submit']) && $statement) {?>
-	<blockquote>You're report has been received and will be reviewed by an administrator as soon as possible.</blockquote>
+	<blockquote>Your report has been received and will be reviewed by an administrator as soon as possible.</blockquote>
 <?php }?>
 <div class="container">
     <div class="page-header clearfix">
