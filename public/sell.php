@@ -27,6 +27,7 @@ if (isset($_POST['submit'])) {
             "book_author" => $_POST['Author'],
             "book_price" => $_POST['Price'],
             "is_available" => 'Available',
+            "book_creater" => $_SESSION["id"],
         );
 
         $sql = sprintf(
