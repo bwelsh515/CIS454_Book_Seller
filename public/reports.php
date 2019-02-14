@@ -73,9 +73,10 @@ if ($result && $statement->rowCount() > 0) {?>
 				<thead class="thead-dark/">
 					<tr>
                         <th>Status</th>
-                        <!-- <th>Creator</th> -->
+                        <th>Creator</th>
 						<th>Title</th>
 						<th>Description</th>
+                        <th>Comments</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -86,6 +87,7 @@ if ($result && $statement->rowCount() > 0) {?>
                         <td><?php echo escape($row["report_creator"]); ?></td>
 						<td><?php echo escape($row["report_title"]); ?></td>
 						<td><?php echo escape($row["description"]); ?></td>
+                        <td><?php echo escape($row["comments"]); ?></td>
 						<td>
                         <div class="btn-toolbar">
 						<?php if ($row["report_status"] === "Open") {?>
