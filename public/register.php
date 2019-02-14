@@ -11,6 +11,7 @@ $username = $password = $confirm_password = "";
 $email = $email_err = "";
 $username_err = $password_err = $confirm_password_err = "";
 $usertype = $usertype_err = "";
+$statement = "";
 // Processing form data when form is submitted
 if (isset($_POST['submit'])) {
     require "../config.php";
