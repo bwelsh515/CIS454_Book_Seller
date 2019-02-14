@@ -108,7 +108,7 @@ if ($result && $statement->rowCount() > 0) {?>
 }?>
 <?php if (escape($row["is_available"] == "Available" && (($_SESSION["usertype"] == "Seller") || ($_SESSION["usertype"] == "Admin")))) {
     echo "<a href=\"edit.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Edit Textbook</a>";
-    echo "<a href=\"delete.php?bookid=" . urlencode($row['book_id']) . "\" class=\"btn btn-info\">Delete Textbook</a>";
+    echo "<a href=\"delete.php?bookid=" . urlencode($row['book_id']) . "&bookname=" . urlencode($row['book_name']) . "\" class=\"btn btn-info\">Delete Textbook</a>";
 }?>
 
 
