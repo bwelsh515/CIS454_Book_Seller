@@ -58,6 +58,7 @@ if ($result && $statement->rowCount() > 0) {?>
                         <!-- <th>Creator</th> -->
 						<th>Title</th>
 						<th>Description</th>
+						<th>Reply</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -67,6 +68,7 @@ if ($result && $statement->rowCount() > 0) {?>
                         <!-- <td><?php echo escape($row["report_creator"]); ?></td> -->
 						<td><?php echo escape($row["report_title"]); ?></td>
 						<td><?php echo escape($row["description"]); ?></td>
+						<td><?php echo escape($row["comments"]); ?></td>
 						<!-- TODO: display edit/delete buttons if admin or owner of book (seller) -->
 					</tr>
 				<?php }?>
