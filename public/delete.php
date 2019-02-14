@@ -26,7 +26,6 @@ if (isset($_GET["bookid"])) {
     $statement->bindValue(':id', $book_id);
     $statement->execute();
 
-    $success = "User successfully deleted";
   } catch(PDOException $error) {
     echo $sql . "<br>" . $error->getMessage();
   }
