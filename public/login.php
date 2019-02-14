@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
                         }
                         // Store the user information into a session on success
                         $_SESSION["loggedin"] = true;
-                        $_SESSION["id"] = $id;
+                        $_SESSION["id"] = $user_id;
                         $_SESSION["username"] = $username;
                         $_SESSION["usertype"] = $user_type;
                         $_SESSION["email"] = $email;
