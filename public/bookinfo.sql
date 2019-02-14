@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.23)
 # Database: BookSeller
-# Generation Time: 2019-02-13 00:55:01 +0000
+# Generation Time: 2019-02-14 00:26:36 +0000
 # ************************************************************
 
 
@@ -64,12 +64,25 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `reports`;
 
 CREATE TABLE `reports` (
-  `report_id` int(11) NOT NULL,
+  `report_id` int(11) NOT NULL AUTO_INCREMENT,
+  `report_creator` int(11) NOT NULL,
   `report_title` varchar(500) NOT NULL,
   `description` varchar(500) NOT NULL,
-  `report_status` varchar(10) NOT NULL
+  `report_status` varchar(10) NOT NULL,
+  UNIQUE KEY `report_id` (`report_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `reports` WRITE;
+/*!40000 ALTER TABLE `reports` DISABLE KEYS */;
+
+INSERT INTO `reports` (`report_id`, `report_creator`, `report_title`, `description`, `report_status`)
+VALUES
+	(1,2,'Shipping error','Product not shipped','Open'),
+	(2,3,'bad','ergerg','closed'),
+	(3,4,'','','');
+
+/*!40000 ALTER TABLE `reports` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table user_info
