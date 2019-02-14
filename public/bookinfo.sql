@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.23)
 # Database: BookSeller
-# Generation Time: 2019-02-14 00:26:36 +0000
+# Generation Time: 2019-02-14 01:07:05 +0000
 # ************************************************************
 
 
@@ -27,6 +27,7 @@ DROP TABLE IF EXISTS `bookinfo`;
 
 CREATE TABLE `bookinfo` (
   `book_id` int(100) NOT NULL AUTO_INCREMENT,
+  `book_creator` int(100) NOT NULL,
   `course_number` varchar(30) NOT NULL DEFAULT '',
   `book_name` varchar(30) NOT NULL,
   `book_author` varchar(30) NOT NULL,
@@ -39,20 +40,20 @@ CREATE TABLE `bookinfo` (
 LOCK TABLES `bookinfo` WRITE;
 /*!40000 ALTER TABLE `bookinfo` DISABLE KEYS */;
 
-INSERT INTO `bookinfo` (`book_id`, `course_number`, `book_name`, `book_author`, `book_price`, `is_available`, `ISBN`)
+INSERT INTO `bookinfo` (`book_id`, `book_creator`, `course_number`, `book_name`, `book_author`, `book_price`, `is_available`, `ISBN`)
 VALUES
-	(1,'CIS 351','Basic Data Structures','John Smith',120,'Available',1223),
-	(2,'MAT 300','Essential Calculus I','James Stewart',155,'Available',56765),
-	(3,'MAT 255','Essential Calculus II','James Stewart',199,'Available',9897),
-	(4,'CIS 477','Operating Systems','Jae Oh',105,'Shipped',8676),
-	(5,'MAT 322','Essential Calculus III','James Stewart',201,'Available',5865),
-	(6,'MAT 644','Statistics 101','John Doe',25,'Shipped',754765),
-	(7,'CIS 400','Algorithms','John Doe',250,'Available',98776),
-	(8,'SOR 233','Game of Thrones','George RR. Martin',25,'Available',98765),
-	(9,'SOR 355','Harry Potter','JK Rowling',100,'Shipped',68564),
-	(10,'CIS 500','Web Design for Nubes','Brian Welsh',4,'Available',8796),
-	(11,'gtbetyh','ythruytn','yth6uj',300,'Available',98676),
-	(12,'MAT 200','intro to math','math wizard',7000,'Available',8676);
+	(1,2,'CIS 351','Basic Data Structures','John Smith',120,'Available',1223),
+	(2,2,'MAT 300','Essential Calculus I','James Stewart',155,'Available',56765),
+	(3,2,'MAT 255','Essential Calculus II','James Stewart',199,'Available',9897),
+	(4,1,'CIS 477','Operating Systems','Jae Oh',105,'Shipped',8676),
+	(5,1,'MAT 322','Essential Calculus III','James Stewart',201,'Available',5865),
+	(6,3,'MAT 644','Statistics 101','John Doe',25,'Shipped',754765),
+	(7,3,'CIS 400','Algorithms','John Doe',250,'Available',98776),
+	(8,3,'SOR 233','Game of Thrones','George RR. Martin',25,'Available',98765),
+	(9,4,'SOR 355','Harry Potter','JK Rowling',100,'Shipped',68564),
+	(10,4,'CIS 500','Web Design for Nubes','Brian Welsh',4,'Available',8796),
+	(11,4,'gtbetyh','ythruytn','yth6uj',300,'Available',98676),
+	(12,4,'MAT 200','intro to math','math wizard',7000,'Available',8676);
 
 /*!40000 ALTER TABLE `bookinfo` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -78,8 +79,8 @@ LOCK TABLES `reports` WRITE;
 INSERT INTO `reports` (`report_id`, `report_creator`, `report_title`, `description`, `report_status`)
 VALUES
 	(1,2,'Shipping error','Product not shipped','Open'),
-	(2,3,'bad','ergerg','closed'),
-	(3,4,'','','');
+	(2,3,'bad','ergerg','Closed'),
+	(3,4,'','','Closed');
 
 /*!40000 ALTER TABLE `reports` ENABLE KEYS */;
 UNLOCK TABLES;

@@ -10,30 +10,61 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
     exit;
 }
 $book_id = $_GET['bookid'];
-$success = "";
+$deleted = false;
 
 require "../config.php";
 require "../common.php";
 
-if (isset($_GET["bookid"])) {
-  try {
-    $connection = new PDO($dsn, $db_username, $db_password, $db_options);
-  
+if (isset($_POST["submit"])) {
+    try {
+        $book_id = $_GET['bookid'];
+        $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 
-    $sql = "DELETE FROM bookinfo WHERE book_id = :id";
+        $sql = "DELETE FROM bookinfo WHERE book_id = :id";
 
-    $statement = $connection->prepare($sql);
-    $statement->bindValue(':id', $book_id);
-    $statement->execute();
+        $statement = $connection->prepare($sql);
+        $statement->bindValue(':id', $book_id);
+        if ($statement->execute()) {
+            $deleted = true;
+        }
 
-  } catch(PDOException $error) {
-    echo $sql . "<br>" . $error->getMessage();
-  }
+    } catch (PDOException $error) {
+        echo $sql . "<br>" . $error->getMessage();
+    }
 }
 
 ?>
 <?php require "templates/header.php";?>
-<h1 class="text" style=" text-align:center;">This book is successfully deleted</h1>
-<a href="index.php" class="btn btn-danger pull-right">Back to previous page</a>
 
-<?php require "templates/footer.php"; ?>
+<div class="container">
+    <div class="page-header clearfix">
+        <h2 class="pull-left">Delete a Textbook</h2>
+        <div class="btn-toolbar">
+            <a href="logout.php" class="btn btn-danger pull-right">Logout</a>
+            <a href="index.php" class="btn btn-success pull-right">Back To Textbooks</a>
+        </div>
+    </div>
+
+<?php if ($deleted) {?>
+  <blockquote>
+    <p>You have successfully deleted <strong><?php echo $_GET['bookname']; ?></strong>.</p>
+  </blockquote>
+<?php } else {?>
+    <div class="wrapper">
+        <form method="post">
+          <div class="row">
+            <blockquote>Are you sure you want to delete <strong><?php echo $_GET['bookname']; ?></strong>?</blockquote>
+            <div class="btn-toolbar">
+              <a href="index.php" class="btn btn-info pull-right">No</a>
+              <input type="submit" name="submit" class="btn btn-danger pull-right" value="Yes">
+            </div>
+          </div>
+        </form>
+    </div>
+<?php }?>
+</div>
+
+
+
+
+<?php require "templates/footer.php";?>
