@@ -39,6 +39,24 @@ try {
 } catch (PDOException $error) {
     echo $sql . "<br>" . $error->getMessage();
 }
+
+if (isset($_POST['submit'])) {
+    try {
+        $report_id = $_POST['report_id'];
+        $connection = new PDO($dsn, $db_username, $db_password, $db_options);
+        $sql = "UPDATE reports
+            SET  report_status = 'Closed'
+            WHERE report_id = :report_id";
+        if ($statement = $connection->prepare($sql)) {
+            $statement->bindParam(":report_id", $report_id);
+            if ($statement->execute()) {
+                header("Refresh:0");
+            }
+        }
+    } catch (PDOException $error) {
+        echo $sql . "<br>" . $error->getMessage();
+    }
+}
 ?>
 
 <?php require "templates/header.php";?>
@@ -58,6 +76,7 @@ if ($result && $statement->rowCount() > 0) {?>
                         <!-- <th>Creator</th> -->
 						<th>Title</th>
 						<th>Description</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -67,6 +86,14 @@ if ($result && $statement->rowCount() > 0) {?>
                         <!-- <td><?php echo escape($row["report_creator"]); ?></td> -->
 						<td><?php echo escape($row["report_title"]); ?></td>
 						<td><?php echo escape($row["description"]); ?></td>
+						<td>
+						<?php if ($row["report_status"] === "Open") {?>
+							<form method="post">
+								<input type="hidden" name="report_id" value="<?php echo htmlspecialchars($row["report_id"]); ?>">
+								<input type="submit" name="submit" value="Close Report" class="btn btn-info">
+							</form>
+						<?php }?>
+						</td>
 						<!-- TODO: display edit/delete buttons if admin or owner of book (seller) -->
 					</tr>
 				<?php }?>
