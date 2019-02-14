@@ -1,25 +1,20 @@
 <?php
-
 /*
  *  Get Textbook information from user via form
  *  Store data into bookinfo DB
  *  Provide Success message
  */
 session_start();
-
 // Prevent the user from accessing the page without being logged in.
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
     header("location: login.php");
     exit;
 }
-
 if (isset($_POST['submit'])) {
     require "../config.php";
     require "../common.php";
-
     try {
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
-
         $new_textbook = array(
             "ISBN" => $_POST['ISBN'],
             "course_number" => $_POST['CourseNumber'],
@@ -27,22 +22,19 @@ if (isset($_POST['submit'])) {
             "book_author" => $_POST['Author'],
             "book_price" => $_POST['Price'],
             "is_available" => 'Available',
-            "book_creater" => $_SESSION["id"],
+            "book_creator" => $_SESSION["id"],
         );
-
         $sql = sprintf(
             "INSERT INTO %s (%s) values (%s)",
             "bookinfo",
             implode(", ", array_keys($new_textbook)),
             ":" . implode(", :", array_keys($new_textbook))
         );
-
         $statement = $connection->prepare($sql);
         $statement->execute($new_textbook);
     } catch (PDOException $error) {
         echo $sql . "<br>" . $error->getMessage();
     }
-
 }
 ?>
 
