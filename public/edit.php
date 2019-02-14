@@ -96,7 +96,9 @@ if (isset($_GET['bookid'])) {
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="<?php echo $key; ?>"><?php echo ucfirst($key); ?></label>
                     <div class="col-sm-10">
-                        <input class="form-control" type="text" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>" <?php echo ($key === 'book_id' || $key === 'is_available' ? 'readonly' : null); ?>>
+                        <?php if ($key !== 'book_id' || $key !== 'is_available' ? 'readonly' : null) {?>
+                            <input class="form-control" type="text" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>">
+                        <?php }?>
                     </div>
             </div>
             <?php endforeach;?>
