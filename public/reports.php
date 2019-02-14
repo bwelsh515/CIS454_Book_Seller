@@ -83,17 +83,20 @@ if ($result && $statement->rowCount() > 0) {?>
 				<?php foreach ($result as $row) {?>
 					<tr>
                         <td><?php echo escape($row["report_status"]); ?></td>
-                        <td><?php echo escape($row["report_creator"]); ?></td> 
+                        <td><?php echo escape($row["report_creator"]); ?></td>
 						<td><?php echo escape($row["report_title"]); ?></td>
 						<td><?php echo escape($row["description"]); ?></td>
 						<td>
+                        <div class="btn-toolbar">
 						<?php if ($row["report_status"] === "Open") {?>
 							<form method="post">
 								<input type="hidden" name="report_id" value="<?php echo htmlspecialchars($row["report_id"]); ?>">
 								<input type="submit" name="submit" value="Close Report" class="btn btn-info">
 							</form>
 						<?php }?>
-						</td>
+                        <?php echo "<a href=\"reply.php?reportid=" . urlencode($row['report_id']) . "\" class=\"btn btn-info\">Reply</a>"; ?>
+						</div>
+                        </td>
 						<!-- TODO: display edit/delete buttons if admin or owner of book (seller) -->
 					</tr>
 				<?php }?>
