@@ -16,13 +16,8 @@ require "../config.php";
 require "../common.php";
 
 $report_id = $_GET['reportid'];
-$id ="";
 $report = [
     "report_id" => "",
-    "report_creator" => "",
-    "report_title" => "",
-    "description" => "",
-    "report_status" => "",
     "comments" => "",
 ];
 
@@ -30,20 +25,11 @@ if (isset($_POST['submit'])) {
     try {
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
         $report = [
-            "report_id" => $_POST['report_id'],
-            "report_creator" => $_POST['report_creator'],
-            "report_title" => $_POST['report_title'],
-            "description" => $_POST['description'],
-            "report_status" => $_POST['report_status'],
+            "report_id" => $report_id,
             "comments" => $_POST['comments'],
         ];
         $sql = "UPDATE reports
-            SET  report_id = :report_id,
-              report_creator = :report_creator,
-              report_title = :report_title,
-              description = :description,
-              report_status = :report_status,
-              comments = :comments
+            SET comments = :comments
             WHERE report_id = :report_id";
         $statement = $connection->prepare($sql);
         $statement->execute($report);
@@ -55,13 +41,14 @@ if (isset($_POST['submit'])) {
 if (isset($_GET['reportid'])) {
     try {
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
-        $id = $_GET['reportid'];
-        $sql = "SELECT * FROM reports WHERE report_id = :id";
+        $report_id = $_GET['reportid'];
+        $sql = "SELECT comments FROM reports WHERE report_id = :report_id";
         $statement = $connection->prepare($sql);
-        $statement->bindValue(':id', $id);
+        $statement->bindValue(':report_id', $report_id);
         $statement->execute();
 
         $report = $statement->fetch(PDO::FETCH_ASSOC);
+        $comment_value = $report['comments'];
     } catch (PDOException $error) {
         echo $sql . "<br>" . $error->getMessage();
     }
@@ -74,7 +61,7 @@ if (isset($_GET['reportid'])) {
 <?php require "templates/header.php";?>
 
 <?php if (isset($_POST['submit']) && $statement): ?>
-	<blockquote>Reply successfully updated.</blockquote>
+	<blockquote>Comment successfully updated.</blockquote>
 <?php endif;?>
 
 <div class="container">
@@ -82,16 +69,16 @@ if (isset($_GET['reportid'])) {
         <h2 class="pull-left">Reply</h2>
         <div class="btn-toolbar">
 			<a href="logout.php" class="btn btn-danger pull-right">Logout</a>
-            <a href="reports.php" class="btn btn-success pull-right">Back To ViewReport</a>
+            <a href="reports.php" class="btn btn-success pull-right">Back To Reports</a>
 		</div>
     </div>
 
     <div class="wrapper">
         <form method="post">
-            <?php foreach ($report as $key => $value) : ?>
-      <label for="<?php echo $key; ?>"><?php echo ucfirst($key); ?></label>
-        <input type="text" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>" <?php echo ($key === 'report_id' || $key === 'report_creator' || $key === 'report_title' || $key === 'description' || $key === 'report_status'? 'readonly' : null); ?>>
-    <?php endforeach; ?> 
+            <div class="form-group">
+                <label for="comments">Enter Your Comment</label>
+                <textarea type="text" class="form-control" name="comments" rows="10"id="comments"><?php echo $report['comments']; ?></textarea>
+            </div>
                 <input type="submit" name="submit" class="btn btn-primary btn-md pull-right" value="Submit">
         </form>
     </div>
