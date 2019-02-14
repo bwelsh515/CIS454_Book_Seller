@@ -32,6 +32,7 @@ if (isset($_GET["bookid"])) {
 }
 
 ?>
+<?php require "templates/header.php";?>
 <h1 class="text" style=" text-align:center;">This book is successfully deleted</h1>
 <a href="index.php" class="btn btn-danger pull-right">Back to previous page</a>
 
