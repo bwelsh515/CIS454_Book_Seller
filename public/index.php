@@ -60,6 +60,7 @@ try {
 			 <?php }?>
 			 <?php if ($_SESSION["usertype"] !== "Admin") {?>
 				<a href="create_report.php" class="btn btn-warning pull-right">Submit a Report</a>
+				<a href="viewReport.php" class="btn btn-warning pull-right">View your Report</a>
 			 <?php } else {?>
 				<a href="reports.php" class="btn btn-warning pull-right">View User Reports</a>
 			 <?php }?>
