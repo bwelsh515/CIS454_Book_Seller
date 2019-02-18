@@ -1,12 +1,18 @@
 <?php
 /**
- * Use an HTML form to edit an entry in the
- * users table.
+ *
+ * Get the selected Textbook ID
+ * Autofill forms with data from the bookinfo database
+ * Allow seller to change form data
+ * On submittal, get form data and update it into the bookinfo table
+ * for the given textbook id
+ * Display error/success message
  *
  */
 
 session_start();
 
+// Prevent the user from accessing the page without being logged in.
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
     header("location: login.php");
     exit;
@@ -28,6 +34,7 @@ $book = [
 
 if (isset($_POST['submit'])) {
     try {
+        // try updating bookinfo table with new textbook info
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
         $book = [
             "book_id" => $book_id,
@@ -55,6 +62,7 @@ if (isset($_POST['submit'])) {
 
 if (isset($_GET['bookid'])) {
     try {
+        // select information about given textbook id to auto fill form
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
         $id = $_GET['bookid'];
         $sql = "SELECT course_number, book_name, book_author, book_price, ISBN FROM bookinfo WHERE book_id = :id";

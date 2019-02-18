@@ -1,9 +1,9 @@
 <?php
 /*
- *  Display all textbooks in the database.
- *  Provide Links to Purchase Textbook if Buyer
- *  Else, provide link to Sell textbook if Seller
- *
+ *  Display all reports submitted by LOGGED IN USER
+ *  Get user ID from sessions
+ *  Select all reports for given user ID from reports table
+ *  Display them
  */
 
 session_start();
@@ -14,22 +14,13 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
     exit;
 }
 
-// Redirect if user is not Admin type
-// Page should only be viewable by the Administrators
-// TODO: uncomment when admin account is created
-// if ($_SESSION["usertype"] !== "Admin") {
-//     header("location: index.php");
-//     exit;
-// }
-
 try {
-    // Try to connect to DB. Select all from bookinfo table.
+    // Try to connect to DB. Select all from reports table for given user ID.
     require_once "../config.php";
     require "../common.php";
 
     $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 
-    // TODO: make sure this matches table
     $sql = "SELECT * FROM reports WHERE report_creator = '" . $_SESSION["id"] . "' ";
 
     $statement = $connection->prepare($sql);
@@ -44,8 +35,11 @@ try {
 <?php require "templates/header.php";?>
 <div class="container">
 	<div class="page-header clearfix">
-        <h2 class="pull-left">View User Reports</h2>
-        <a href="index.php" class="btn btn-success pull-right">Back To Textbooks</a>
+        <h2 class="pull-left">View My Reports</h2>
+		<div class="btn-toolbar">
+			<a href="logout.php" class="btn btn-danger pull-right">Logout</a>
+			<a href="index.php" class="btn btn-success pull-right">Back To Textbooks</a>
+		</div>
 	</div>
 
 	<?php
@@ -65,11 +59,9 @@ if ($result && $statement->rowCount() > 0) {?>
 				<?php foreach ($result as $row) {?>
 					<tr>
                         <td><?php echo escape($row["report_status"]); ?></td>
-                        <!-- <td><?php echo escape($row["report_creator"]); ?></td> -->
 						<td><?php echo escape($row["report_title"]); ?></td>
 						<td><?php echo escape($row["description"]); ?></td>
 						<td><?php echo escape($row["comments"]); ?></td>
-						<!-- TODO: display edit/delete buttons if admin or owner of book (seller) -->
 					</tr>
 				<?php }?>
 				</tbody>

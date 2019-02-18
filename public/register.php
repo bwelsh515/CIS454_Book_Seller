@@ -118,54 +118,58 @@ if (isset($_POST['submit'])) {
 <?php if (isset($_POST['submit']) && $statement) {?>
 	<blockquote><?php echo $_POST['username']; ?> successfully added.</blockquote>
 <?php }?>
-    <div class="wrapper">
-        <h2>Register An Account</h2>
-        <p>Please fill this form to create an account.</p>
-        <form method="post">
-            <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                <label>Username</label>
-                <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
-                <span class="help-block"><?php echo $username_err; ?></span>
-            </div>
-            <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                <label>Email</label>
-                <input type="email" name="email" class="form-control" value="<?php echo $email; ?>">
-                <span class="help-block"><?php echo $email_err; ?></span>
-            </div>
-            <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
-                <span class="help-block"><?php echo $password_err; ?></span>
-                <small id="passwordHelpInline" class="text-muted">
-                    Must be atleast 6 characters long.
-                </small>
-            </div>
-            <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-                <label>Confirm Password</label>
-                <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
-                <span class="help-block"><?php echo $confirm_password_err; ?></span>
-            </div>
-
-            <div class="form-row">
-                <label>User Type</label>
-                <div class="form-group <?php echo (!empty($usertype_err)) ? 'has-error' : ''; ?>">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radio" id="radioBuyer" value="Buyer">
-                        <label class="form-check-label" for="inlineRadio1">Buyer</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radio" id="radioSeller" value="Seller">
-                        <label class="form-check-label" for="inlineRadio2">Seller</label>
-                    </div>
-                    <span class="help-block"><?php echo $usertype_err; ?></span>
+<div class="container">
+	<div class="page-header clearfix">
+		<h2 class="pull-left">Register an Account</h2>
+	</div>
+        <div class="wrapper">
+            <form method="post">
+                <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+                    <label>Username</label>
+                    <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
+                    <span class="help-block"><?php echo $username_err; ?></span>
                 </div>
-            </div>
+                <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" value="<?php echo $email; ?>">
+                    <span class="help-block"><?php echo $email_err; ?></span>
+                </div>
+                <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
+                    <span class="help-block"><?php echo $password_err; ?></span>
+                    <small id="passwordHelpInline" class="text-muted">
+                        Must be atleast 6 characters long.
+                    </small>
+                </div>
+                <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
+                    <span class="help-block"><?php echo $confirm_password_err; ?></span>
+                </div>
 
-            <div class="form-group">
-                <input type="submit" name="submit" class="btn btn-primary" value="Submit">
-            </div>
-            <p>Already have an account? <a href="login.php">Login here</a>.</p>
-        </form>
+                <div class="form-row">
+                    <label>User Type</label>
+                    <div class="form-group <?php echo (!empty($usertype_err)) ? 'has-error' : ''; ?>">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="radio" id="radioBuyer" value="Buyer">
+                            <label class="form-check-label" for="inlineRadio1">Buyer</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="radio" id="radioSeller" value="Seller">
+                            <label class="form-check-label" for="inlineRadio2">Seller</label>
+                        </div>
+                        <span class="help-block"><?php echo $usertype_err; ?></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" name="submit" class="btn btn-primary" value="Submit">
+                </div>
+                <p>Already have an account? <a href="login.php">Login here</a>.</p>
+            </form>
+        </div>
     </div>
+</div>
 
     <?php require "templates/footer.php";?>

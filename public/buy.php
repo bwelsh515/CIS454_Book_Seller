@@ -2,7 +2,7 @@
 /*
  *  Allow the User to Purchase the selected Textbook.
  *  Retrieve the Textbook info that was selected from DB
- *  Set the is_available field to 'Shipped'
+ *  Get buyers payment information and confirmation before completing purchase
  *  If Successful, display success message
  *  Else, report error
  */
@@ -19,6 +19,8 @@ require "../common.php";
 
 $book_name = $book_price = "";
 $book_id = $_GET['bookid'];
+
+// Used to display a different UI after purchase has been completed.
 $purchased = false;
 
 try {
@@ -44,6 +46,8 @@ if (isset($_POST['submit'])) {
     // get card type
     $cardtype = $_POST['cardtype'];
     try {
+        // Update bookinfo table by setting the is_available column to Shipped for the
+        // given textbook ID.
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
         $sql = "UPDATE bookinfo SET is_available = 'Shipped' WHERE book_id = :id";
         if ($stmt = $connection->prepare($sql)) {

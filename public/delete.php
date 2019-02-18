@@ -1,15 +1,23 @@
 <?php
 
 /**
- * Delete a user
+ *
+ * Get the selected textbook ID to delete
+ * Display a confirmation form before deletion
+ * On submittal, delete the row from bookinfo that contains the unique Textbook ID
+ * Display error/success message
+ *
  */
 session_start();
 
+// Prevent the user from accessing the page without being logged in.
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
     header("location: login.php");
     exit;
 }
 $book_id = $_GET['bookid'];
+
+// used to display a different UI after submission
 $deleted = false;
 
 require "../config.php";
@@ -17,6 +25,7 @@ require "../common.php";
 
 if (isset($_POST["submit"])) {
     try {
+        // Try to delete the textbook from bookinfo
         $book_id = $_GET['bookid'];
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 

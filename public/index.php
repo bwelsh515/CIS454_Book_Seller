@@ -3,14 +3,25 @@
  *  Display all textbooks in the database.
  *  Provide Links to Purchase Textbook if Buyer
  *  Else, provide link to Sell textbook if Seller
- *
+ *  Allow buyer or seller accounts to create and view their reports
+ *  Allow user to search textbooks by name, author, or course number
  */
 
 session_start();
+
+// Prevent the user from accessing the page without being logged in.
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
+    header("location: login.php");
+    exit;
+}
+
 $change = "";
+
+// Set the default sql statement to load everything from bookinfo table
 $sql = "SELECT * FROM bookinfo";
 
 // If the sort button is pressed, change the SQL statement
+// to only select rows where the search statement is satisfied.
 if (isset($_POST['submit'])) {
     if ($_POST['search'] === "") {
         $sql = "SELECT * FROM bookinfo";
@@ -23,20 +34,12 @@ if (isset($_POST['submit'])) {
     }
 }
 
-// Prevent the user from accessing the page without being logged in.
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
-    header("location: login.php");
-    exit;
-}
-
 try {
-    // Try to connect to DB. Select all from bookinfo table.
+    // Try to connect to DB. Select from bookinfo table given the sql statement
     require_once "../config.php";
     require "../common.php";
 
     $connection = new PDO($dsn, $db_username, $db_password, $db_options);
-
-    // $sql = "SELECT * FROM bookinfo";
 
     $statement = $connection->prepare($sql);
     $statement->execute();
@@ -54,15 +57,14 @@ try {
 		<h2 class="pull-left">Textbooks For Sale</h2>
 		<div class="btn-toolbar">
 			<a href="logout.php" class="btn btn-danger pull-right">Logout</a>
-			<!-- only display 'Add new Textbook' button if SELLER -->
 			<?php if ($_SESSION["usertype"] == "Seller") {?>
 				<a href="sell.php" class="btn btn-success pull-right">Add New Textbook</a>
 			 <?php }?>
 			 <?php if ($_SESSION["usertype"] !== "Admin") {?>
 				<a href="create_report.php" class="btn btn-warning pull-right">Submit a Report</a>
-				<a href="viewReport.php" class="btn btn-warning pull-right">View your Report</a>
+				<a href="user_reports.php" class="btn btn-warning pull-right">View your Reports</a>
 			 <?php } else {?>
-				<a href="reports.php" class="btn btn-warning pull-right">View User Reports</a>
+				<a href="admin_reports.php" class="btn btn-warning pull-right">View User Reports</a>
 			 <?php }?>
 		</div>
 	</div>
@@ -99,8 +101,6 @@ if ($result && $statement->rowCount() > 0) {?>
 						<td><?php echo escape($row["course_number"]); ?></td>
 						<td>$<?php echo escape($row["book_price"]); ?></td>
 						<td><?php echo escape($row["is_available"]); ?></td>
-						<!-- TODO: display edit/delete buttons if admin or owner of book (seller) -->
-						<!-- Display a Buy Button if textbook is available and user is buyer -->
 						<td>
 							<div class="btn-toolbar">
 						<?php if (escape($row["is_available"] == "Available" && $_SESSION["usertype"] == "Buyer")) {

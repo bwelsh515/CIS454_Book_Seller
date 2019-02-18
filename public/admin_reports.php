@@ -1,9 +1,7 @@
 <?php
 /*
- *  Display all textbooks in the database.
- *  Provide Links to Purchase Textbook if Buyer
- *  Else, provide link to Sell textbook if Seller
- *
+ *  Display all reports in the database.
+ *  Provide Links to Purchase Close Report or Add a Comment
  */
 
 session_start();
@@ -16,14 +14,13 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
 
 // Redirect if user is not Admin type
 // Page should only be viewable by the Administrators
-// TODO: uncomment when admin account is created
-// if ($_SESSION["usertype"] !== "Admin") {
-//     header("location: index.php");
-//     exit;
-// }
+if ($_SESSION["usertype"] !== "Admin") {
+    header("location: index.php");
+    exit;
+}
 
 try {
-    // Try to connect to DB. Select all from bookinfo table.
+    // Try to connect to DB. Select all from reports table.
     require_once "../config.php";
     require "../common.php";
 
@@ -40,8 +37,10 @@ try {
     echo $sql . "<br>" . $error->getMessage();
 }
 
+// THIS IS CALLED WHEN 'CLOSE REPORT' IS PRESSED
 if (isset($_POST['submit'])) {
     try {
+        // update reports table by setting status for given report ID to Closed
         $report_id = $_POST['report_id'];
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
         $sql = "UPDATE reports
@@ -63,7 +62,10 @@ if (isset($_POST['submit'])) {
 <div class="container">
 	<div class="page-header clearfix">
         <h2 class="pull-left">View User Reports</h2>
-        <a href="index.php" class="btn btn-success pull-right">Back To Textbooks</a>
+        <div class="btn-toolbar">
+			<a href="logout.php" class="btn btn-danger pull-right">Logout</a>
+			<a href="index.php" class="btn btn-success pull-right">Back To Textbooks</a>
+		</div>
 	</div>
 
 	<?php
@@ -99,7 +101,6 @@ if ($result && $statement->rowCount() > 0) {?>
                         <?php echo "<a href=\"reply.php?reportid=" . urlencode($row['report_id']) . "\" class=\"btn btn-info\">Reply</a>"; ?>
 						</div>
                         </td>
-						<!-- TODO: display edit/delete buttons if admin or owner of book (seller) -->
 					</tr>
 				<?php }?>
 				</tbody>

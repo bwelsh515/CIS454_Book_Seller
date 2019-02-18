@@ -1,8 +1,11 @@
 <?php
 /**
- * Use an HTML form to edit an entry in the
- * users table.
- *
+ * Allow the administrator to comment on a report
+ * Get the Selected Report ID
+ * Select row for given report ID from reports table
+ * Auto fill form with selected information
+ * When submit is pressed, update report table with (edited) form information
+ * Display error/success message
  */
 
 session_start();
@@ -69,7 +72,7 @@ if (isset($_GET['reportid'])) {
         <h2 class="pull-left">Reply</h2>
         <div class="btn-toolbar">
 			<a href="logout.php" class="btn btn-danger pull-right">Logout</a>
-            <a href="reports.php" class="btn btn-success pull-right">Back To Reports</a>
+            <a href="admin_reports.php" class="btn btn-success pull-right">Back To Reports</a>
 		</div>
     </div>
 

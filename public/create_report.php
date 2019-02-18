@@ -21,15 +21,16 @@ if (isset($_POST['submit'])) {
     try {
         $connection = new PDO($dsn, $db_username, $db_password, $db_options);
 
-        // TODO: make sure this is correct
+        // Store all form information into report array
         $new_report = array(
             "report_title" => $_POST['Title'],
             "description" => $_POST['Description'],
             "report_creator" => $_SESSION["id"],
             "report_status" => "Open",
+            "comments" => "",
         );
 
-        // TODO: Make sure this matches DB
+        // Insert report array into reports table
         $sql = sprintf(
             "INSERT INTO %s (%s) values (%s)",
             "reports",
