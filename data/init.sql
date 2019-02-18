@@ -43,14 +43,14 @@ LOCK TABLES `bookinfo` WRITE;
 INSERT INTO `bookinfo` (`book_id`, `book_creator`, `course_number`, `book_name`, `book_author`, `book_price`, `is_available`, `ISBN`)
 VALUES
 	(1,2,'CIS 351','Basic Data Structures','John Smith',120,'Available',1223),
-	(2,2,'MAT 300','Essential Calculus I','James Stewart',155,'Available',56765),
-	(3,2,'MAT 255','Essential Calculus II','James Stewart',199,'Available',9897),
+	(2,10,'MAT 300','Essential Calculus I','James Stewart',155,'Available',56765),
+	(3,10,'MAT 255','Essential Calculus II','James Stewart',199,'Available',9897),
 	(4,1,'CIS 477','Operating Systems','Jae Oh',105,'Shipped',8676),
 	(5,1,'MAT 322','Essential Calculus III','James Stewart',201,'Available',5865),
-	(6,3,'MAT 644','Statistics 101','John Doe',25,'Shipped',754765),
+	(6,10,'MAT 644','Statistics 101','John Doe',25,'Shipped',754765),
 	(7,3,'CIS 400','Algorithms','John Doe',250,'Available',98776),
 	(8,3,'SOR 233','Game of Thrones','George RR. Martin',25,'Available',98765),
-	(9,4,'SOR 355','Harry Potter','JK Rowling',100,'Shipped',68564),
+	(9,10,'SOR 355','Harry Potter','JK Rowling',100,'Shipped',68564),
 	(10,4,'CIS 500','Web Design for Nubes','Brian Welsh',4,'Available',8796),
 	(11,4,'gtbetyh','ythruytn','yth6uj',300,'Available',98676),
 	(12,4,'MAT 200','intro to math','math wizard',7000,'Available',8676);
@@ -79,9 +79,9 @@ LOCK TABLES `reports` WRITE;
 
 INSERT INTO `reports` (`report_id`, `report_creator`, `report_title`, `description`, `report_status`, `comments`)
 VALUES
-	(1,2,'Shipping error','Product not shipped','Open','right on that'),
-	(2,3,'bad','ergerg','Closed','good'),
-	(3,4,'','','Closed','will be fixed');
+	(1,2,'Shipping error','Product not shipped','Open','Right on that'),
+	(2,3,'Mispelling on Buy Page','Page header had Youre instead of Your','Closed','Updated. Thank you for your input'),
+	(3,4,'Profanity','One of the book names has a swear word','Closed','Textbook Deleted. Thank you for your input.');
 
 /*!40000 ALTER TABLE `reports` ENABLE KEYS */;
 UNLOCK TABLES;
