@@ -5,12 +5,26 @@
  *  Provide Success message
  */
 session_start();
+$check = "";
+$statement ="";
 // Prevent the user from accessing the page without being logged in.
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
     header("location: login.php");
     exit;
 }
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit']) ) {
+    $check = "";
+    if (empty(trim($_POST['ISBN']))||empty(trim($_POST['CourseNumber']))||empty(trim($_POST['Name']))||empty(trim($_POST['Author'])) || empty(trim($_POST['Price'])) || is_int(trim($_POST['ISBN'])) || is_int(trim($_POST['Price']))) {
+        
+        $check = "Empty Line";
+    }
+    else if ( !is_int(trim($_POST['ISBN'])) || !is_int(trim($_POST['Price']))) {
+        $check = "ISBN and Price should be number";
+    }
+    if(!empty($check)){
+        
+    }
+    else{
     require "../config.php";
     require "../common.php";
     try {
@@ -35,10 +49,16 @@ if (isset($_POST['submit'])) {
     } catch (PDOException $error) {
         echo $sql . "<br>" . $error->getMessage();
     }
+    }
+    
 }
 ?>
 
 <?php require "templates/header.php";?>
+
+<?php if(!empty($check)){?>
+        <blockquote><?php echo $check?></blockquote>
+<?php }?>
 
 <?php if (isset($_POST['submit']) && $statement) {?>
 	<blockquote><?php echo $_POST['Name']; ?> successfully added.</blockquote>
