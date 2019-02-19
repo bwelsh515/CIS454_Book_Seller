@@ -6,58 +6,56 @@
  */
 session_start();
 $check = "";
-$statement ="";
+$statement = "";
 // Prevent the user from accessing the page without being logged in.
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
     header("location: login.php");
     exit;
 }
-if (isset($_POST['submit']) ) {
+if (isset($_POST['submit'])) {
     $check = "";
-    if (empty(trim($_POST['ISBN']))||empty(trim($_POST['CourseNumber']))||empty(trim($_POST['Name']))||empty(trim($_POST['Author'])) || empty(trim($_POST['Price'])) || is_int(trim($_POST['ISBN'])) || is_int(trim($_POST['Price']))) {
-        
+    if (empty(trim($_POST['ISBN'])) || empty(trim($_POST['CourseNumber'])) || empty(trim($_POST['Name'])) || empty(trim($_POST['Author'])) || empty(trim($_POST['Price'])) || is_int(trim($_POST['ISBN'])) || is_int(trim($_POST['Price']))) {
+
         $check = "Empty Line";
-    }
-    else if ( !is_int(trim($_POST['ISBN'])) || !is_int(trim($_POST['Price']))) {
+    } else if (!is_numeric(trim($_POST['ISBN'])) || !is_numeric(trim($_POST['Price']))) {
         $check = "ISBN and Price should be number";
     }
-    if(!empty($check)){
-        
+    if (!empty($check)) {
+
+    } else {
+        require "../config.php";
+        require "../common.php";
+        try {
+            $connection = new PDO($dsn, $db_username, $db_password, $db_options);
+            $new_textbook = array(
+                "ISBN" => $_POST['ISBN'],
+                "course_number" => $_POST['CourseNumber'],
+                "book_name" => $_POST['Name'],
+                "book_author" => $_POST['Author'],
+                "book_price" => $_POST['Price'],
+                "is_available" => 'Available',
+                "book_creator" => $_SESSION["id"],
+            );
+            $sql = sprintf(
+                "INSERT INTO %s (%s) values (%s)",
+                "bookinfo",
+                implode(", ", array_keys($new_textbook)),
+                ":" . implode(", :", array_keys($new_textbook))
+            );
+            $statement = $connection->prepare($sql);
+            $statement->execute($new_textbook);
+        } catch (PDOException $error) {
+            echo $sql . "<br>" . $error->getMessage();
+        }
     }
-    else{
-    require "../config.php";
-    require "../common.php";
-    try {
-        $connection = new PDO($dsn, $db_username, $db_password, $db_options);
-        $new_textbook = array(
-            "ISBN" => $_POST['ISBN'],
-            "course_number" => $_POST['CourseNumber'],
-            "book_name" => $_POST['Name'],
-            "book_author" => $_POST['Author'],
-            "book_price" => $_POST['Price'],
-            "is_available" => 'Available',
-            "book_creator" => $_SESSION["id"],
-        );
-        $sql = sprintf(
-            "INSERT INTO %s (%s) values (%s)",
-            "bookinfo",
-            implode(", ", array_keys($new_textbook)),
-            ":" . implode(", :", array_keys($new_textbook))
-        );
-        $statement = $connection->prepare($sql);
-        $statement->execute($new_textbook);
-    } catch (PDOException $error) {
-        echo $sql . "<br>" . $error->getMessage();
-    }
-    }
-    
+
 }
 ?>
 
 <?php require "templates/header.php";?>
 
-<?php if(!empty($check)){?>
-        <blockquote><?php echo $check?></blockquote>
+<?php if (!empty($check)) {?>
+        <blockquote><?php echo $check ?></blockquote>
 <?php }?>
 
 <?php if (isset($_POST['submit']) && $statement) {?>
